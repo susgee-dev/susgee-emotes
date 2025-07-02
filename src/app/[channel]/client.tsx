@@ -7,7 +7,6 @@ import { fetchChannelData } from './actions';
 import BadgeSection from '@/components/badge-section';
 import EmoteSection from '@/components/emote-section';
 import LoadingSpinner from '@/components/loading-spinner';
-import SubEmotes from '@/components/sub-emotes';
 import Error from '@/components/ui/error';
 import { Heading } from '@/components/ui/heading';
 import { Link } from '@/components/ui/link';
@@ -54,22 +53,30 @@ export default function ChannelPageClient({ channel }: { channel: string }) {
 			{isLoading ? (
 				<LoadingSpinner />
 			) : (
-				<div className="flex flex-col gap-4">
+				<div className="flex flex-col gap-12">
 					{data?.emotes?.twitch && (
 						<>
-							<Heading variant="compact">Channel Emotes</Heading>
-							<EmoteSection emotes={data.emotes.twitch.follower} title="Follower Emotes" />
-							<SubEmotes subs={data.emotes.twitch.subscriptions} />
-							<EmoteSection emotes={data.emotes.twitch.bits} title="Bits Emotes" />
-							<EmoteSection emotes={data.emotes.twitch.other} title="Other Emotes" />
+							<div className="flex flex-col gap-6">
+								<EmoteSection emotes={data.emotes.twitch.follower} title="Follower Emotes" />
+								<EmoteSection
+									emotes={data.emotes.twitch.tier1}
+									title="Tier 1 Subscription Emotes"
+								/>
+								<EmoteSection
+									emotes={data.emotes.twitch.tier2}
+									title="Tier 2 Subscription Emotes"
+								/>
+								<EmoteSection
+									emotes={data.emotes.twitch.tier3}
+									title="Tier 3 Subscription Emotes"
+								/>
+								<EmoteSection emotes={data.emotes.twitch.bits} title="Bits Emotes" />
+								<EmoteSection emotes={data.emotes.twitch.other} title="Other Emotes" />
+							</div>
 						</>
 					)}
 
-					{data?.badges?.twitch && (
-						<div className="mt-8">
-							<BadgeSection badges={data.badges.twitch} title="Channel Badges" />
-						</div>
-					)}
+					{data?.badges?.twitch && <BadgeSection badges={data.badges.twitch} />}
 				</div>
 			)}
 		</>

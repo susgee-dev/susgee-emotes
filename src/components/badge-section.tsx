@@ -6,12 +6,10 @@ import { Heading } from '@/components/ui/heading';
 import { CategorizedTwitchBadges } from '@/types/api/helix';
 
 type BadgeSectionProps = {
-	title: string;
 	badges: CategorizedTwitchBadges;
-	as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 };
 
-export default function BadgeSection({ title, badges, as = 'h2' }: BadgeSectionProps) {
+export default function BadgeSection({ badges }: BadgeSectionProps) {
 	const hasSubscriberBadges = Object.keys(badges.subscriber).length > 0;
 
 	const hasBitsBadges = badges.bits.length > 0;
@@ -20,11 +18,7 @@ export default function BadgeSection({ title, badges, as = 'h2' }: BadgeSectionP
 	if (!hasSubscriberBadges && !hasBitsBadges && !hasOtherBadges) return null;
 
 	return (
-		<div className="flex flex-col gap-4">
-			<Heading as={as} variant="compact">
-				{title}
-			</Heading>
-
+		<div className="grid gap-4 md:grid-cols-2">
 			{hasSubscriberBadges && (
 				<div className="flex flex-col gap-2">
 					<Heading as="h3" variant="compact">
@@ -62,11 +56,11 @@ export default function BadgeSection({ title, badges, as = 'h2' }: BadgeSectionP
 			{hasBitsBadges && <BadgeCategory as="h3" badges={badges.bits} title="Bits Badges" />}
 
 			{hasOtherBadges && (
-				<div className="flex flex-col gap-2">
+				<div className="flex flex-col gap-4">
 					<Heading as="h3" variant="compact">
 						Other Badges
 					</Heading>
-					<div className="flex flex-col gap-2 pl-4">
+					<div className="flex flex-col gap-2">
 						{Object.entries(badges.other).map(([setId, badgeVersions]) => (
 							<BadgeCategory
 								key={setId}
