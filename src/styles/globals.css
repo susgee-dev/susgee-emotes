@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  overflow-y: scroll !important;
+  padding-right: 0 !important;
+}
+
+.break-word {
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-text;
+}
