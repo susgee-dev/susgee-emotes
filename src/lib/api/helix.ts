@@ -114,11 +114,9 @@ class Helix extends BaseApi {
 
 		const categorized: CategorizedTwitchEmotes = {
 			follower: [],
-			subscriptions: {
-				tier1: [],
-				tier2: [],
-				tier3: []
-			},
+			tier1: [],
+			tier2: [],
+			tier3: [],
 			bits: [],
 			other: []
 		};
@@ -143,9 +141,9 @@ class Helix extends BaseApi {
 					break;
 				case 'subscriptions':
 					const tierMap: Record<string, TwitchEmote[]> = {
-						'1000': categorized.subscriptions.tier1,
-						'2000': categorized.subscriptions.tier2,
-						'3000': categorized.subscriptions.tier3
+						'1000': categorized.tier1,
+						'2000': categorized.tier2,
+						'3000': categorized.tier3
 					};
 
 					(tierMap[emote.tier] || categorized.other).push(twitchEmote);

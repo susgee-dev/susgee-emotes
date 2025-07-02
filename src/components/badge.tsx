@@ -8,11 +8,11 @@ export default function Badge({ version }: { version: TwitchBadgeVersion }) {
 			unoptimized
 			alt={version.title}
 			className="mx-0.5 inline-block align-sub"
-			height={28}
+			height={36}
 			loading="lazy"
 			src={version.imageUrl}
 			title={`${version.title}`}
-			width={28}
+			width={36}
 		/>
 	);
 }

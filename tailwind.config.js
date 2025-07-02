@@ -1,8 +1,10 @@
+const { heroui } = require('@heroui/theme');
 /** @type {import('tailwindcss').Config} */
 const config = {
 	content: [
 		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
 		'./src/app/**/*.{js,ts,jsx,tsx,mdx}',
+		'./node_modules/@heroui/theme/dist/components/popover.js'
 	],
 	theme: {
 		extend: {
@@ -25,12 +27,12 @@ const config = {
 				},
 				muted: {
 					foreground: 'hsl(0 0% 50% / <alpha-value>)'
-				},
+				}
 			}
 		}
 	},
 	darkMode: 'class',
-	plugins: []
+	plugins: [heroui()]
 };
 
 export default config;

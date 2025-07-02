@@ -14,7 +14,7 @@ export default function BadgeCategory({ title, badges, as = 'h4' }: BadgeCategor
 	if (!badges.length) return null;
 
 	return (
-		<div className="flex flex-col gap-1">
+		<div className="flex flex-col gap-2">
 			<Heading as={as} variant="compact">
 				{title}
 			</Heading>

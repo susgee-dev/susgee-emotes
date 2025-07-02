@@ -12,6 +12,10 @@ html {
   hyphens: auto;
 }
 
+.emote {
+  @apply border border-primary-30 p-1;
+}
+
 .gradient-text {
   @apply bg-clip-text text-transparent bg-gradient-text;
 }

@@ -14,11 +14,11 @@ export default function EmoteSection({ title, emotes, as = 'h3' }: EmoteSectionP
 	if (!emotes.length) return null;
 
 	return (
-		<div className="flex flex-col gap-1">
+		<div className="flex flex-col gap-4">
 			<Heading as={as} variant="compact">
 				{title}
 			</Heading>
-			<div className="">
+			<div className="flex flex-wrap gap-1">
 				{emotes.map((emote) => (
 					<Emote key={emote.id} emote={emote} />
 				))}

@@ -60,11 +60,9 @@ export type TwitchEmote = {
 
 export type CategorizedTwitchEmotes = {
 	follower: TwitchEmote[];
-	subscriptions: {
-		tier1: TwitchEmote[];
-		tier2: TwitchEmote[];
-		tier3: TwitchEmote[];
-	};
+	tier1: TwitchEmote[];
+	tier2: TwitchEmote[];
+	tier3: TwitchEmote[];
 	bits: TwitchEmote[];
 	other: TwitchEmote[];
 };
