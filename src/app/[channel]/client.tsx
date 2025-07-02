@@ -22,6 +22,7 @@ export default function ChannelPageClient({ channel }: { channel: string }) {
 		async function loadChannelData() {
 			try {
 				const channelData = await fetchChannelData(channel);
+
 				setData(channelData);
 			} catch {
 				setError('an unknown error occurred');
@@ -57,16 +58,16 @@ export default function ChannelPageClient({ channel }: { channel: string }) {
 					{data?.emotes?.twitch && (
 						<>
 							<Heading variant="compact">Channel Emotes</Heading>
-							<EmoteSection title="Follower Emotes" emotes={data.emotes.twitch.follower} />
+							<EmoteSection emotes={data.emotes.twitch.follower} title="Follower Emotes" />
 							<SubEmotes subs={data.emotes.twitch.subscriptions} />
-							<EmoteSection title="Bits Emotes" emotes={data.emotes.twitch.bits} />
-							<EmoteSection title="Other Emotes" emotes={data.emotes.twitch.other} />
+							<EmoteSection emotes={data.emotes.twitch.bits} title="Bits Emotes" />
+							<EmoteSection emotes={data.emotes.twitch.other} title="Other Emotes" />
 						</>
 					)}
 
 					{data?.badges?.twitch && (
 						<div className="mt-8">
-							<BadgeSection title="Channel Badges" badges={data.badges.twitch} />
+							<BadgeSection badges={data.badges.twitch} title="Channel Badges" />
 						</div>
 					)}
 				</div>

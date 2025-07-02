@@ -68,15 +68,19 @@ class Helix extends BaseApi {
 					const titleMatch = version.title.match(
 						/(\d+)[\s-]*(Month|Year|Day|Week|Hour|Minute|Second)s?/i
 					);
+
 					if (titleMatch) {
 						const [, count, unit] = titleMatch;
+
 						duration = `${count} ${unit}${parseInt(count) !== 1 ? 's' : ''}`;
 					} else {
 						const descMatch = version.description.match(
 							/(\d+)[\s-]*(Month|Year|Day|Week|Hour|Minute|Second)s?/i
 						);
+
 						if (descMatch) {
 							const [, count, unit] = descMatch;
+
 							duration = `${count} ${unit}${parseInt(count) !== 1 ? 's' : ''}`;
 						}
 					}
@@ -143,6 +147,7 @@ class Helix extends BaseApi {
 						'2000': categorized.subscriptions.tier2,
 						'3000': categorized.subscriptions.tier3
 					};
+
 					(tierMap[emote.tier] || categorized.other).push(twitchEmote);
 					break;
 				case 'bitstier':

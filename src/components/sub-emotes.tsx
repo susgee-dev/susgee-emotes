@@ -24,9 +24,9 @@ export default function SubEmotes({ subs }: SubscriptionEmotesProps) {
 			</Heading>
 
 			<div className="flex flex-col gap-4">
-				{tier1 && <EmoteSection title="Tier 1" emotes={tier1} as="h4" />}
-				{tier2 && <EmoteSection title="Tier 2" emotes={tier2} as="h4" />}
-				{tier3 && <EmoteSection title="Tier 3" emotes={tier3} as="h4" />}
+				{tier1 && <EmoteSection as="h4" emotes={tier1} title="Tier 1" />}
+				{tier2 && <EmoteSection as="h4" emotes={tier2} title="Tier 2" />}
+				{tier3 && <EmoteSection as="h4" emotes={tier3} title="Tier 3" />}
 			</div>
 		</div>
 	);

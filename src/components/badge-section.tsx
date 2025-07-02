@@ -59,7 +59,7 @@ export default function BadgeSection({ title, badges, as = 'h2' }: BadgeSectionP
 				</div>
 			)}
 
-			{hasBitsBadges && <BadgeCategory title="Bits Badges" badges={badges.bits} as="h3" />}
+			{hasBitsBadges && <BadgeCategory as="h3" badges={badges.bits} title="Bits Badges" />}
 
 			{hasOtherBadges && (
 				<div className="flex flex-col gap-2">
@@ -70,8 +70,8 @@ export default function BadgeSection({ title, badges, as = 'h2' }: BadgeSectionP
 						{Object.entries(badges.other).map(([setId, badgeVersions]) => (
 							<BadgeCategory
 								key={setId}
-								title={setId.charAt(0).toUpperCase() + setId.slice(1)}
 								badges={badgeVersions}
+								title={setId.charAt(0).toUpperCase() + setId.slice(1)}
 							/>
 						))}
 					</div>
