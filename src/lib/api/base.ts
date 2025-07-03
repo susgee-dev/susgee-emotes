@@ -11,7 +11,7 @@ export default class BaseApi {
 		const response = await fetch(this.basePath + endpoint, {
 			method: 'GET',
 			headers: {
-				'User-Agent': 'Susgeebot History (https://github.com/susgee-dev/susgee-history)',
+				'User-Agent': 'Susgeebot Emotes (https://github.com/susgee-dev/susgee-emotes)',
 				'Content-Type': 'application/json',
 				...(options.headers || {})
 			},
