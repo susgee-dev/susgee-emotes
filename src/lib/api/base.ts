@@ -7,7 +7,7 @@ export default class BaseApi {
 		this.basePath = basePath;
 	}
 
-	async fetch<T>(endpoint: string, options: ApiRequestOptions = {}): Promise<null | T> {
+	async fetch<T>(endpoint: string, options: ApiRequestOptions = {}): Promise<T | null> {
 		const response = await fetch(this.basePath + endpoint, {
 			method: 'GET',
 			headers: {

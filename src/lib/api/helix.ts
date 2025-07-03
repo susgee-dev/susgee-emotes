@@ -8,8 +8,7 @@ import {
 	TwitchBadgesResponse,
 	TwitchBadgeVersion,
 	TwitchEmote,
-	TwitchEmoteResponse,
-	UserResponse
+	TwitchEmoteResponse
 } from '@/types/api/helix';
 
 class Helix extends BaseApi {
@@ -21,14 +20,6 @@ class Helix extends BaseApi {
 
 	constructor() {
 		super('https://api.twitch.tv/helix');
-	}
-
-	async getUserId(username: string): Promise<null | string> {
-		const channels = await super.fetch<UserResponse>(`/users?login=${username}`, {
-			headers: this.headers
-		});
-
-		return channels?.data?.[0]?.id || null;
 	}
 
 	async getChannelBadges(channelId: string): Promise<CategorizedTwitchBadges> {
