@@ -10,7 +10,7 @@ export default function LoadingSpinner() {
 					style={{ animationDelay: '-0.5s', animationDuration: '1.5s' }}
 				/>
 			</div>
-			<span className="ml-3 text-sm font-medium text-primary/70">Loading emotes...</span>
+			<span className="ml-3 text-lg font-medium text-primary/70">Loading emotes and badges...</span>
 		</div>
 	);
 }

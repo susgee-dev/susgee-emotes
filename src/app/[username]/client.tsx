@@ -5,24 +5,25 @@ import { useEffect, useState } from 'react';
 import { fetchChannelData } from './actions';
 
 import BadgeSection from '@/components/badge-section';
+import Channel from '@/components/channel';
 import EmoteSection from '@/components/emote-section';
 import LoadingSpinner from '@/components/loading-spinner';
 import Error from '@/components/ui/error';
-import { Heading } from '@/components/ui/heading';
 import { Link } from '@/components/ui/link';
-import { EmoteData } from '@/types/emotes';
+import { User } from '@/types/api/tla';
+import { ChannelData } from '@/types/emotes';
 
-export default function ChannelPageClient({ channel }: { channel: string }) {
-	const [data, setData] = useState<EmoteData | null>(null);
+export default function ChannelPageClient({ channel }: { channel: User }) {
+	const [data, setData] = useState<ChannelData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		async function loadChannelData() {
 			try {
-				const channelData = await fetchChannelData(channel);
+				const data = await fetchChannelData(channel?.id || '');
 
-				setData(channelData);
+				setData(data);
 			} catch {
 				setError('an unknown error occurred');
 			} finally {
@@ -31,7 +32,7 @@ export default function ChannelPageClient({ channel }: { channel: string }) {
 		}
 
 		loadChannelData();
-	}, [channel]);
+	}, [channel.id]);
 
 	if (error) {
 		return <Error message={error} title="Error Loading Channel" type="notFound" />;
@@ -39,15 +40,12 @@ export default function ChannelPageClient({ channel }: { channel: string }) {
 
 	return (
 		<>
-			<Link href="/">← back to search</Link>
+			<Link className="mb-4 inline-block" href="/">
+				← back to search
+			</Link>
 
-			<div className="mb-4 flex flex-wrap items-end justify-between border-b border-primary/30 pb-4">
-				<Heading as="h3" variant="compact">
-					channel emotes/badges for:
-				</Heading>
-				<Heading as="h1" className="gradient-text flex w-fit flex-col" variant="compact">
-					{channel}
-				</Heading>
+			<div className="mb-4 grid grid-cols-1 items-center gap-6 border-b border-primary/30 pb-4 md:grid-cols-[1fr,auto]">
+				<Channel channel={channel} />
 			</div>
 
 			{isLoading ? (

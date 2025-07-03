@@ -1,6 +1,6 @@
 import { CategorizedTwitchBadges, CategorizedTwitchEmotes } from '@/types/api/helix';
 
-export type EmoteData = {
+export type ChannelData = {
 	emotes: {
 		twitch: CategorizedTwitchEmotes;
 	};
