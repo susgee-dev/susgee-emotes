@@ -32,7 +32,7 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 		}
 
 		loadChannelData();
-	}, [data]);
+	}, [channel.id]);
 
 	if (error) {
 		return <Error message={error} title="Error Loading Channel" type="notFound" />;
