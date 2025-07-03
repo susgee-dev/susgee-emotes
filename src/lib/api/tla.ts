@@ -47,8 +47,22 @@ class Tla extends BaseApi {
 		}`;
 
 		const response = await this.fetch<UserResponse>(query);
+		const user = response?.data?.user || null;
 
-		return response?.data?.user || null;
+		if (!user) return null;
+
+		return {
+			id: user.id,
+			login: user.login,
+			displayName: user.displayName,
+			description: user.description,
+			color: user.chatColor,
+			createdAt: user.createdAt,
+			followers: user.followers?.totalCount || 0,
+			avatar: user.profileImageURL,
+			isAffiliate: user.roles?.isAffiliate || false,
+			isPartner: user.roles?.isPartner || false
+		};
 	}
 }
 

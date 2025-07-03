@@ -1,19 +1,19 @@
 'use client';
 
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 import { fetchChannelData } from './actions';
 
 import BadgeSection from '@/components/badge-section';
+import Channel from '@/components/channel';
 import EmoteSection from '@/components/emote-section';
 import LoadingSpinner from '@/components/loading-spinner';
 import Error from '@/components/ui/error';
-import { Heading } from '@/components/ui/heading';
 import { Link } from '@/components/ui/link';
+import { User } from '@/types/api/tla';
 import { ChannelData } from '@/types/emotes';
 
-export default function ChannelPageClient({ username }: { username: string }) {
+export default function ChannelPageClient({ channel }: { channel: User }) {
 	const [data, setData] = useState<ChannelData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
@@ -21,9 +21,9 @@ export default function ChannelPageClient({ username }: { username: string }) {
 	useEffect(() => {
 		async function loadChannelData() {
 			try {
-				const channel = await fetchChannelData(username);
+				const data = await fetchChannelData(channel?.id || '');
 
-				setData(channel);
+				setData(data);
 			} catch {
 				setError('an unknown error occurred');
 			} finally {
@@ -32,7 +32,7 @@ export default function ChannelPageClient({ username }: { username: string }) {
 		}
 
 		loadChannelData();
-	}, [username]);
+	}, [data]);
 
 	if (error) {
 		return <Error message={error} title="Error Loading Channel" type="notFound" />;
@@ -40,26 +40,12 @@ export default function ChannelPageClient({ username }: { username: string }) {
 
 	return (
 		<>
-			<Link href="/">← back to search</Link>
+			<Link className="mb-4 inline-block" href="/">
+				← back to search
+			</Link>
 
-			<div className="my-4 flex flex-wrap items-center gap-4 border-b border-primary/30 pb-4">
-				{data?.channel?.profileImageURL && (
-					<Image
-						unoptimized
-						alt={username}
-						className="rounded-full"
-						height={60}
-						loading="lazy"
-						src={data.channel.profileImageURL}
-						width={60}
-					/>
-				)}
-				<div>
-					<Heading as="h1" className="gradient-text" variant="compact">
-						{data?.channel?.displayName ?? username}
-					</Heading>
-					<p>{data?.channel?.login}</p>
-				</div>
+			<div className="mb-4 grid grid-cols-1 items-center gap-6 border-b border-primary/30 pb-4 md:grid-cols-[1fr,auto]">
+				<Channel channel={channel} />
 			</div>
 
 			{isLoading ? (
