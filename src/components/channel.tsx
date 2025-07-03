@@ -29,9 +29,7 @@ export default function Channel({ channel }: { channel: User }) {
 						<span className="line-clamp-2">{channel.description}</span>
 
 						<span className="font-bold">Role:</span>
-						<span>
-							{channel.isAffiliate ? 'Affiliate' : channel.isPartner ? 'Partner' : 'Default'}
-						</span>
+						<span>{channel.role}</span>
 
 						<span className="font-bold">View on:</span>
 						<span>

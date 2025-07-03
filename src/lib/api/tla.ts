@@ -60,9 +60,15 @@ class Tla extends BaseApi {
 			createdAt: user.createdAt,
 			followers: user.followers?.totalCount || 0,
 			avatar: user.profileImageURL,
-			isAffiliate: user.roles?.isAffiliate || false,
-			isPartner: user.roles?.isPartner || false
+			role: this.getRole(user.roles)
 		};
+	}
+
+	private getRole(roles: { isPartner: boolean; isAffiliate: boolean }): string {
+		if (roles.isPartner) return 'Partner';
+		if (roles.isAffiliate) return 'Affiliate';
+
+		return 'Default';
 	}
 }
 

@@ -28,6 +28,5 @@ export type User = {
 	createdAt: string;
 	followers: number;
 	avatar: string;
-	isAffiliate: boolean;
-	isPartner: boolean;
+	role: string;
 };
