@@ -1,13 +1,3 @@
-export type UserResponse = {
-	data: User[];
-};
-
-export type User = {
-	id: string;
-	login: string;
-	display_name: string;
-};
-
 export type TwitchBadgeVersionResponse = {
 	id: string;
 	image_url_1x: string;
