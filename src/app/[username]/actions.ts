@@ -2,10 +2,10 @@
 
 import helix from '@/lib/api/helix';
 import tla from '@/lib/api/tla';
-import { EmoteData } from '@/types/emotes';
+import { ChannelData } from '@/types/emotes';
 
-export async function fetchChannelData(username: string): Promise<EmoteData> {
-	if (!username || username.length > 25 || !/^[a-zA-Z0-9_]{3,25}$/.test(username)) {
+export async function fetchChannelData(username: string): Promise<ChannelData> {
+	if (!username || !/^[a-zA-Z0-9_]{3,25}$/.test(username)) {
 		throw new Error('Invalid channel name');
 	}
 
@@ -21,6 +21,7 @@ export async function fetchChannelData(username: string): Promise<EmoteData> {
 	]);
 
 	return {
+		channel,
 		emotes: {
 			twitch: twitchEmotes
 		},

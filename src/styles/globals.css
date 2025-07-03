@@ -17,5 +17,5 @@ html {
 }
 
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-text;
+  @apply bg-clip-text text-transparent bg-gradient-text w-fit;
 }

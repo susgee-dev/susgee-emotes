@@ -50,16 +50,6 @@ class Tla extends BaseApi {
 
 		return response?.data?.user || null;
 	}
-
-	async getSubEmotes(channelId: string): Promise<null | any> {
-		const query = `{
-			user (id: "${channelId}", lookupType: ALL) {}
-		}`;
-
-		const response = await this.fetch<any>(query);
-
-		return response?.data?.user;
-	}
 }
 
 const tla = new Tla();
