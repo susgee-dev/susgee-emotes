@@ -138,6 +138,14 @@ class Tla extends BaseApi {
 	async getChannelBadges(channelId: string): Promise<any> {
 		const query = `{
 			user(id: "${channelId}") {
+				cheer {
+					badgeTierEmotes (filter: ALL) {
+						token
+						bitsBadgeTierSummary {
+							threshold
+						}
+					}
+				}
 				broadcastBadges {
 					id
 					setID
