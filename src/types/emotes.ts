@@ -1,8 +1,9 @@
-import { CategorizedTwitchBadges, CategorizedTwitchEmotes } from '@/types/api/helix';
+import { CategorizedTwitchBadges } from '@/types/api/helix';
+import { TwitchEmotes } from '@/types/api/tla';
 
 export type ChannelData = {
 	emotes: {
-		twitch: CategorizedTwitchEmotes;
+		twitch: TwitchEmotes | null;
 	};
 	badges: {
 		twitch: CategorizedTwitchBadges;

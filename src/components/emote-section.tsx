@@ -2,7 +2,7 @@
 
 import Emote from '@/components/emote';
 import { Heading } from '@/components/ui/heading';
-import { TwitchEmote } from '@/types/api/helix';
+import { Emote as TwitchEmote } from '@/types/api/tla';
 
 type EmoteSectionProps = {
 	title: string;
