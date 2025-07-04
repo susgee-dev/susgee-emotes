@@ -68,7 +68,7 @@ class Tla extends BaseApi {
 		if (roles.isPartner) return 'Partner';
 		if (roles.isAffiliate) return 'Affiliate';
 
-		return 'Default';
+		return '';
 	}
 }
 

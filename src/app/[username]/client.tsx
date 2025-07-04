@@ -44,9 +44,7 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 				← back to search
 			</Link>
 
-			<div className="mb-4 grid grid-cols-1 items-center gap-6 border-b border-primary/30 pb-4 md:grid-cols-[1fr,auto]">
-				<Channel channel={channel} />
-			</div>
+			<Channel channel={channel} />
 
 			{isLoading ? (
 				<LoadingSpinner />
