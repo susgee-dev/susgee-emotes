@@ -2,58 +2,49 @@
 
 import Image from 'next/image';
 
+import { IconExternal } from '@/components/icons/external';
 import { Heading } from '@/components/ui/heading';
 import { Link } from '@/components/ui/link';
 import { User } from '@/types/api/tla';
 
 export default function Channel({ channel }: { channel: User }) {
 	return (
-		<>
-			<div>
-				<div className="flex flex-wrap items-baseline gap-2">
-					<Heading as="h1" className="gradient-text" variant="compact">
-						{channel?.displayName}
-					</Heading>
-					<Heading as="h3" variant="compact">
-						<span style={{ color: channel.color }}>@{channel.login}</span>
-					</Heading>
-				</div>
-				<p className="text-lg text-muted-foreground">#{channel.id}</p>
-
-				<div className="mt-2">
-					<div className="grid grid-cols-[max-content,1fr] gap-x-4 gap-y-0 text-lg">
-						<span className="font-bold">Follower:</span>
-						<span>{channel.followers}</span>
-
-						<span className="font-bold">Bio:</span>
-						<span className="line-clamp-2">{channel.description}</span>
-
-						<span className="font-bold">Role:</span>
-						<span>{channel.role}</span>
-
-						<span className="font-bold">View on:</span>
-						<span>
-							<Link
-								className="!pl-0 !text-lg"
-								href={`https://twitch.tv/${channel.login}`}
-								target="_blank"
-							>
-								Twitch
-							</Link>
-						</span>
-					</div>
-				</div>
-			</div>
-
+		<div className="mb-4 flex flex-col gap-6 border-b border-primary/30 pb-4 md:flex-row">
 			{channel.avatar && (
 				<Image
 					alt={channel.login}
-					className="object-cover"
+					className="rounded-2xl border border-primary/30"
 					height={192}
 					src={channel.avatar}
 					width={192}
 				/>
 			)}
-		</>
+			<div>
+				<Heading as="h1" variant="compact">
+					<span style={{ color: channel.color }}>{channel?.displayName}</span>
+				</Heading>
+				<div className="flex flex-wrap items-baseline gap-2">
+					<Heading as="h3" variant="compact">
+						@{channel.login}
+					</Heading>
+					<p className="text-lg text-muted-foreground">#{channel.id}</p>
+				</div>
+
+				<p className="text-lg">{channel.followers.toLocaleString('en-US')} Follower</p>
+
+				{channel.role && <p className="text-lg">{channel.role}</p>}
+
+				<p>
+					<Link
+						className="items-start !pl-0 !text-lg"
+						href={`https://twitch.tv/${channel.login}`}
+						iconAfter={<IconExternal size={14} />}
+						target="_blank"
+					>
+						Twitch
+					</Link>
+				</p>
+			</div>
+		</div>
 	);
 }
