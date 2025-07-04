@@ -19,20 +19,15 @@ export type TwitchBadgesResponse = {
 };
 
 export type TwitchBadgeVersion = {
-	id: string;
-	imageUrl: string;
+	id: number;
+	image: string;
 	title: string;
-	description: string;
+	description?: string;
 };
 
 export type CategorizedTwitchBadges = {
-	subscriber: {
-		[duration: string]: TwitchBadgeVersion[];
-	};
+	subscriber: TwitchBadgeVersion[];
 	bits: TwitchBadgeVersion[];
-	other: {
-		[key: string]: TwitchBadgeVersion[];
-	};
 };
 
 export type TwitchEmote = {
