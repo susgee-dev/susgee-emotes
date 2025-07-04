@@ -6,7 +6,6 @@ import {
 	CategorizedTwitchBadges,
 	CategorizedTwitchEmotes,
 	TwitchBadgesResponse,
-	TwitchBadgeVersion,
 	TwitchEmote,
 	TwitchEmoteResponse
 } from '@/types/api/helix';
@@ -32,65 +31,52 @@ class Helix extends BaseApi {
 
 		if (!response?.data) {
 			return {
-				subscriber: {},
-				bits: [],
-				other: {}
+				subscriber: [],
+				bits: []
 			};
 		}
 
 		const categorized: CategorizedTwitchBadges = {
-			subscriber: {},
-			bits: [],
-			other: {}
+			subscriber: [],
+			bits: []
 		};
 
 		for (const badge of response.data) {
 			for (const version of badge.versions) {
-				const customVersion: TwitchBadgeVersion = {
-					id: version.id,
-					imageUrl: version.image_url_4x || version.image_url_2x || version.image_url_1x,
-					title: version.title,
-					description: version.description
-				};
-
 				if (badge.set_id === 'subscriber') {
-					let duration = 'Subscriber';
+					const rawId = Number(version.id);
+					let tier = 1;
+					let months = rawId;
 
-					const titleMatch = version.title.match(
-						/(\d+)[\s-]*(Month|Year|Day|Week|Hour|Minute|Second)s?/i
-					);
-
-					if (titleMatch) {
-						const [, count, unit] = titleMatch;
-
-						duration = `${count} ${unit}${parseInt(count) !== 1 ? 's' : ''}`;
-					} else {
-						const descMatch = version.description.match(
-							/(\d+)[\s-]*(Month|Year|Day|Week|Hour|Minute|Second)s?/i
-						);
-
-						if (descMatch) {
-							const [, count, unit] = descMatch;
-
-							duration = `${count} ${unit}${parseInt(count) !== 1 ? 's' : ''}`;
-						}
+					if (rawId >= 3000) {
+						tier = 3;
+						months = rawId - 3000;
+					} else if (rawId >= 2000) {
+						tier = 2;
+						months = rawId - 2000;
 					}
 
-					if (!categorized.subscriber[duration]) {
-						categorized.subscriber[duration] = [];
-					}
+					const id = months * 10 + tier;
 
-					categorized.subscriber[duration].push(customVersion);
-				} else if (badge.set_id === 'bits') {
-					categorized.bits.push(customVersion);
-				} else {
-					if (!categorized.other[badge.set_id]) {
-						categorized.other[badge.set_id] = [];
-					}
-					categorized.other[badge.set_id].push(customVersion);
+					categorized.subscriber.push({
+						id,
+						title: version.title,
+						image: version.image_url_4x || version.image_url_2x || version.image_url_1x,
+						description: tier === 1 ? '' : `Tier ${tier}`
+					});
+				}
+
+				if (badge.set_id === 'bits') {
+					categorized.bits.push({
+						id: Number(version.id),
+						title: version.title,
+						image: version.image_url_4x || version.image_url_2x || version.image_url_1x
+					});
 				}
 			}
 		}
+
+		categorized.subscriber.sort((a, b) => a.id - b.id);
 
 		return categorized;
 	}
