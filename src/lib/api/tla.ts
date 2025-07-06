@@ -203,6 +203,42 @@ class Tla extends BaseApi {
 		return badges;
 	}
 
+	async getEmoteDetails(emoteId: string): Promise<any> {
+		const query = `{
+			emote(id: "${emoteId}") {
+				artist {
+					login
+				}
+				type
+				id
+				token
+				setID
+				state
+				subscriptionTier
+				bitsBadgeTierSummary {
+					threshold
+				}
+			}
+		}`;
+
+		const response: any = await this.fetch(query);
+		const emote = response?.data?.emote || null;
+
+		if (!emote) return null;
+
+		return {
+			artist: emote.artist?.login || null,
+			type: emote.type,
+			id: emote.id,
+			token: emote.token,
+			setID: emote.setID,
+			state: emote.state,
+			tier: emote.subscriptionTier || null,
+			bits: emote.bitsBadgeTierSummary?.threshold || null,
+			image: `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/3.0`
+		};
+	}
+
 	private normalizeEmote(e: ApiEmote): Emote {
 		const emote: Emote = {
 			id: e.id,

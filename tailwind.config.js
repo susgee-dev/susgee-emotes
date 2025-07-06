@@ -5,7 +5,7 @@ const config = {
 	content: [
 		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
 		'./src/app/**/*.{js,ts,jsx,tsx,mdx}',
-		'./node_modules/@heroui/theme/dist/components/(input|popover|form).js'
+		'./node_modules/@heroui/theme/dist/components/(input|modal|popover|form).js'
 	],
 	theme: {
 		extend: {
