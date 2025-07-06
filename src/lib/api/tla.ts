@@ -3,7 +3,9 @@ import 'dotenv/config';
 import BaseApi from './base';
 
 import {
+	ApiBadge,
 	ApiEmote,
+	BadgeResponse,
 	Emote,
 	EmoteResponse,
 	Roles,
@@ -154,7 +156,7 @@ class Tla extends BaseApi {
 			}
 		}`;
 
-		const response = await this.fetch<any>(query);
+		const response = await this.fetch<BadgeResponse>(query);
 		const user = response?.data?.user || null;
 
 		if (!user) {
@@ -166,11 +168,11 @@ class Tla extends BaseApi {
 			bits: []
 		};
 
-		user?.broadcastBadges?.map((badge: any) => {
+		user?.broadcastBadges?.map((badge: ApiBadge) => {
 			if (badge.setID === 'bits') {
 				return badges.bits.push({
 					id: Number(badge.version),
-					name: badge.text,
+					name: badge.title,
 					image: badge.imageURL
 				});
 			}
@@ -197,8 +199,8 @@ class Tla extends BaseApi {
 			}
 		});
 
-		badges.subscriber.sort((a: any, b: any) => a.id - b.id);
-		badges.bits.sort((a: any, b: any) => a.id - b.id);
+		badges.subscriber.sort((a, b) => a.id - b.id);
+		badges.bits.sort((a, b) => a.id - b.id);
 
 		return badges;
 	}
