@@ -12,7 +12,7 @@ export default function Badge({ badge }: { badge: TwitchBadge }) {
 			color="foreground"
 			content={
 				<Heading as="h4" variant="compact">
-					{badge.title}
+					{badge.name}
 					{description}
 				</Heading>
 			}
@@ -20,12 +20,12 @@ export default function Badge({ badge }: { badge: TwitchBadge }) {
 		>
 			<Image
 				unoptimized
-				alt={badge.title}
+				alt={badge.name}
 				className="mx-0.5 inline-block align-sub"
 				height={36}
 				loading="lazy"
 				src={badge.image}
-				title={badge.title}
+				title={badge.name}
 				width={36}
 			/>
 		</Tooltip>

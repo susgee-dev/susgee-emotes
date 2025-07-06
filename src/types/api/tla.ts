@@ -78,7 +78,7 @@ export type TwitchEmotes = {
 
 export type Badge = {
 	id: number;
-	title: string;
+	name: string;
 	description?: string;
 	image: string;
 };

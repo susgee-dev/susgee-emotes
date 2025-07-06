@@ -161,16 +161,16 @@ class Tla extends BaseApi {
 			return null;
 		}
 
-		const badges = {
-			subscriber: [] as any,
-			bits: [] as any
+		const badges: TwitchBadges = {
+			subscriber: [],
+			bits: []
 		};
 
 		user?.broadcastBadges?.map((badge: any) => {
 			if (badge.setID === 'bits') {
 				return badges.bits.push({
 					id: Number(badge.version),
-					title: badge.title,
+					name: badge.text,
 					image: badge.imageURL
 				});
 			}
@@ -190,7 +190,7 @@ class Tla extends BaseApi {
 
 				return badges.subscriber.push({
 					id: months * 10 + tier,
-					title: badge.title,
+					name: badge.title,
 					image: badge.imageURL,
 					description: `tier ${tier}`
 				});
