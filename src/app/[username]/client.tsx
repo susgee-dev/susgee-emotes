@@ -1,6 +1,7 @@
 'use client';
 
 import { Input } from '@heroui/input';
+import { SearchIcon } from '@heroui/shared-icons';
 import { useEffect, useState } from 'react';
 
 import { fetchChannelData } from './actions';
@@ -51,6 +52,7 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 				name="search-emotes"
 				placeholder="Search emotes"
 				radius="sm"
+				startContent={<SearchIcon />}
 				type="text"
 				value={searchQuery}
 				variant="bordered"
