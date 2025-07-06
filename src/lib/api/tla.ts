@@ -7,6 +7,7 @@ import {
 	Emote,
 	EmoteResponse,
 	Roles,
+	TwitchBadges,
 	TwitchEmotes,
 	User,
 	UserResponse
@@ -14,6 +15,7 @@ import {
 
 class Tla extends BaseApi {
 	private readonly headers = {
+		Authorization: `OAuth ${process.env.TLA_AUTH_TOKEN || ''}`,
 		'Client-ID': process.env.TLA_CLIENT_ID || '',
 		'User-Agent':
 			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
@@ -26,10 +28,7 @@ class Tla extends BaseApi {
 	async fetch<T>(query: string): Promise<T | null> {
 		return super.fetch<T>('', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				...this.headers
-			},
+			headers: this.headers,
 			body: JSON.stringify({ query })
 		});
 	}
@@ -75,6 +74,16 @@ class Tla extends BaseApi {
 	async getChannelEmotes(channelId: string): Promise<TwitchEmotes | null> {
 		const query = `{
 			user(id: "${channelId}") {
+				cheer {
+					badgeTierEmotes (filter: ALL) {
+						id
+						token
+						assetType
+						bitsBadgeTierSummary {
+							threshold
+						}
+					}
+				}
 				subscriptionProducts {
 					tier
 					emotes {
@@ -104,12 +113,7 @@ class Tla extends BaseApi {
 
 		const subEmotes = user?.subscriptionProducts ?? [];
 		const followerEmotes = user?.channel?.localEmoteSets ?? [];
-
-		const normalize = (e: ApiEmote): Emote => ({
-			id: e.id,
-			name: e.token,
-			image: `https://static-cdn.jtvnw.net/emoticons/v2/${e.id}/default/dark/3.0`
-		});
+		const bitsEmotes = user?.cheer?.badgeTierEmotes ?? [];
 
 		const tiers: Record<string, keyof TwitchEmotes> = {
 			1000: 'tier1',
@@ -118,34 +122,28 @@ class Tla extends BaseApi {
 		};
 
 		const emotes: TwitchEmotes = {
+			follower: [],
 			tier1: [],
 			tier2: [],
 			tier3: [],
-			follower: []
+			bits: []
 		};
 
 		for (const sub of subEmotes) {
 			const key = tiers[sub.tier];
 
-			emotes[key].push(...sub.emotes.map(normalize));
+			emotes[key].push(...sub.emotes.map(this.normalizeEmote));
 		}
 
-		emotes.follower = followerEmotes?.flatMap((set) => set.emotes.map(normalize)) ?? [];
+		emotes.bits = bitsEmotes.map(this.normalizeEmote) ?? [];
+		emotes.follower = followerEmotes?.flatMap((set) => set.emotes.map(this.normalizeEmote)) ?? [];
 
 		return emotes;
 	}
 
-	async getChannelBadges(channelId: string): Promise<any> {
+	async getChannelBadges(channelId: string): Promise<TwitchBadges | null> {
 		const query = `{
 			user(id: "${channelId}") {
-				cheer {
-					badgeTierEmotes (filter: ALL) {
-						token
-						bitsBadgeTierSummary {
-							threshold
-						}
-					}
-				}
 				broadcastBadges {
 					id
 					setID
@@ -192,9 +190,9 @@ class Tla extends BaseApi {
 
 				return badges.subscriber.push({
 					id: months * 10 + tier,
-					tier: tier,
 					title: badge.title,
-					image: badge.imageURL
+					image: badge.imageURL,
+					description: `tier ${tier}`
 				});
 			}
 		});
@@ -203,6 +201,20 @@ class Tla extends BaseApi {
 		badges.bits.sort((a: any, b: any) => a.id - b.id);
 
 		return badges;
+	}
+
+	private normalizeEmote(e: ApiEmote): Emote {
+		const emote: Emote = {
+			id: e.id,
+			name: e.token,
+			image: `https://static-cdn.jtvnw.net/emoticons/v2/${e.id}/default/dark/3.0`
+		};
+
+		if (e.bitsBadgeTierSummary?.threshold) {
+			emote.description = `cost: ${e.bitsBadgeTierSummary.threshold} bits`;
+		}
+
+		return emote;
 	}
 
 	private getRole(roles: Roles): string {

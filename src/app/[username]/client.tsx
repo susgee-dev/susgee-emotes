@@ -50,7 +50,7 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 				<LoadingSpinner />
 			) : (
 				<div className="flex flex-col gap-12">
-					{data && data.emotes.twitch && (
+					{data?.emotes?.twitch && (
 						<>
 							<div className="flex flex-col gap-6">
 								<EmoteSection emotes={data.emotes.twitch.follower} title="Follower Emotes" />
@@ -66,6 +66,7 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 									emotes={data.emotes.twitch.tier3}
 									title="Tier 3 Subscription Emotes"
 								/>
+								<EmoteSection emotes={data.emotes.twitch.bits} title="Bits Emotes" />
 							</div>
 						</>
 					)}

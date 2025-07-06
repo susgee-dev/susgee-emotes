@@ -31,8 +31,8 @@ export function Heading({
 			compact: 'text-2xl font-semibold'
 		},
 		h4: {
-			default: 'text-lg font-medium mt-4 mb-3',
-			compact: 'text-lg font-medium'
+			default: 'text-lg font-semibold mt-4 mb-3',
+			compact: 'text-lg font-semibold'
 		},
 		h5: {
 			default: 'text-sm font-medium mt-3 mb-2',

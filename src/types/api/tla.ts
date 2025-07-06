@@ -37,11 +37,15 @@ export type ApiEmote = {
 	assetType: string;
 	token: string;
 	id: string;
+	bitsBadgeTierSummary?: {
+		threshold: number;
+	};
 };
 
 export type Emote = {
 	id: string;
 	name: string;
+	description?: string;
 	image: string;
 };
 
@@ -49,11 +53,12 @@ export type EmoteResponse = {
 	data: {
 		user: {
 			subscriptionProducts: {
-				emoteSetID: string;
-				displayName: string;
 				tier: string;
 				emotes: ApiEmote[];
 			}[];
+			cheer: {
+				badgeTierEmotes: ApiEmote[];
+			};
 			channel: {
 				localEmoteSets: {
 					emotes: ApiEmote[];
@@ -68,4 +73,17 @@ export type TwitchEmotes = {
 	tier1: Emote[];
 	tier2: Emote[];
 	tier3: Emote[];
+	bits: Emote[];
+};
+
+export type Badge = {
+	id: number;
+	title: string;
+	description?: string;
+	image: string;
+};
+
+export type TwitchBadges = {
+	subscriber: Badge[];
+	bits: Badge[];
 };

@@ -12,9 +12,16 @@ export default function Emote({ emote }: { emote: TwitchEmote }) {
 			<Tooltip
 				color="foreground"
 				content={
-					<Heading as="h3" variant="compact">
-						{emote.name}
-					</Heading>
+					<>
+						<Heading as="h3" variant="compact">
+							{emote.name}
+						</Heading>
+						{emote.description && (
+							<Heading as="h4" variant="compact">
+								{emote.description}
+							</Heading>
+						)}
+					</>
 				}
 				placement="bottom"
 			>
