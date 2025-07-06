@@ -13,7 +13,7 @@ html {
 }
 
 .emote {
-  @apply border border-primary-30 p-1 rounded-md;
+  @apply border border-primary-30 p-1 rounded-md duration-300;
 }
 
 .gradient-text {

@@ -8,9 +8,15 @@ type EmoteSectionProps = {
 	title: string;
 	emotes: TwitchEmote[];
 	as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+	searchQuery?: string;
 };
 
-export default function EmoteSection({ title, emotes, as = 'h3' }: EmoteSectionProps) {
+export default function EmoteSection({
+	title,
+	emotes,
+	as = 'h3',
+	searchQuery = ''
+}: EmoteSectionProps) {
 	if (!emotes.length) return null;
 
 	return (
@@ -20,7 +26,7 @@ export default function EmoteSection({ title, emotes, as = 'h3' }: EmoteSectionP
 			</Heading>
 			<div className="flex flex-wrap gap-1">
 				{emotes.map((emote) => (
-					<Emote key={emote.id} emote={emote} />
+					<Emote key={emote.id} emote={emote} searchQuery={searchQuery} />
 				))}
 			</div>
 		</div>

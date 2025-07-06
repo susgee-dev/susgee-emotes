@@ -4,11 +4,20 @@ import { Tooltip } from '@heroui/tooltip';
 import Image from 'next/image';
 
 import { Heading } from '@/components/ui/heading';
+import { cn } from '@/lib/utils';
 import { Emote as TwitchEmote } from '@/types/api/tla';
 
-export default function Emote({ emote }: { emote: TwitchEmote }) {
+export default function Emote({
+	emote,
+	searchQuery = ''
+}: {
+	emote: TwitchEmote;
+	searchQuery?: string;
+}) {
+	const isMatch = !searchQuery || emote.name.toLowerCase().includes(searchQuery.toLowerCase());
+
 	return (
-		<div className="emote">
+		<div className={cn('emote', !isMatch && 'opacity-20')}>
 			<Tooltip
 				color="foreground"
 				content={
