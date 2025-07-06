@@ -60,7 +60,7 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 			/>
 
 			{isLoading ? (
-				<LoadingSpinner />
+				<LoadingSpinner text="Loading emotes and badges..." />
 			) : (
 				<div className="flex flex-col gap-12">
 					{data?.emotes?.twitch && (

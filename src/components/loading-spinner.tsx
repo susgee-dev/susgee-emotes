@@ -1,6 +1,6 @@
 'use client';
 
-export default function LoadingSpinner() {
+export default function LoadingSpinner({ text }: { text?: string }) {
 	return (
 		<div className="flex items-center justify-center py-16">
 			<div className="relative">
@@ -10,7 +10,7 @@ export default function LoadingSpinner() {
 					style={{ animationDelay: '-0.5s', animationDuration: '1.5s' }}
 				/>
 			</div>
-			<span className="ml-3 text-lg font-medium text-primary/70">Loading emotes and badges...</span>
+			{text && <span className="ml-3 text-lg font-medium text-primary/70">{text}</span>}
 		</div>
 	);
 }
