@@ -1,5 +1,6 @@
 'use client';
 
+import { Input } from '@heroui/input';
 import { useEffect, useState } from 'react';
 
 import { fetchChannelData } from './actions';
@@ -45,12 +46,14 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 
 			<Channel channel={channel} />
 
-			<input
-				className="w-full rounded-md border border-primary/30 bg-background px-4 py-2 text-foreground"
+			<Input
+				color="primary"
 				name="search-emotes"
 				placeholder="Search emotes"
+				radius="sm"
 				type="text"
 				value={searchQuery}
+				variant="bordered"
 				onChange={(e) => setSearchQuery(e.target.value)}
 			/>
 
