@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
 	return (
-		<div className="flex flex-col gap-8 pt-16">
-			<Heading as="h1" variant="compact">
+		<>
+			<Heading as="h1" className="pt-16" variant="compact">
 				Twitch Channel Emotes
 			</Heading>
 			<SearchChannel />
-		</div>
+		</>
 	);
 }
