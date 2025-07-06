@@ -2,10 +2,20 @@ import 'dotenv/config';
 
 import BaseApi from './base';
 
-import { User, UserResponse } from '@/types/api/tla';
+import {
+	ApiEmote,
+	Emote,
+	EmoteResponse,
+	Roles,
+	TwitchBadges,
+	TwitchEmotes,
+	User,
+	UserResponse
+} from '@/types/api/tla';
 
 class Tla extends BaseApi {
 	private readonly headers = {
+		Authorization: `OAuth ${process.env.TLA_AUTH_TOKEN || ''}`,
 		'Client-ID': process.env.TLA_CLIENT_ID || '',
 		'User-Agent':
 			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
@@ -18,15 +28,12 @@ class Tla extends BaseApi {
 	async fetch<T>(query: string): Promise<T | null> {
 		return super.fetch<T>('', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				...this.headers
-			},
+			headers: this.headers,
 			body: JSON.stringify({ query })
 		});
 	}
 
-	async getUser(username: string): Promise<null | User> {
+	async getUser(username: string): Promise<User | null> {
 		const query = `{
 			user (login: "${username}", lookupType: ALL) {
         id
@@ -64,7 +71,153 @@ class Tla extends BaseApi {
 		};
 	}
 
-	private getRole(roles: { isPartner: boolean; isAffiliate: boolean }): string {
+	async getChannelEmotes(channelId: string): Promise<TwitchEmotes | null> {
+		const query = `{
+			user(id: "${channelId}") {
+				cheer {
+					badgeTierEmotes (filter: ALL) {
+						id
+						token
+						assetType
+						bitsBadgeTierSummary {
+							threshold
+						}
+					}
+				}
+				subscriptionProducts {
+					tier
+					emotes {
+						id
+						token
+						assetType
+					}
+				}
+				channel {
+					localEmoteSets {
+						emotes {
+							id
+							token
+							assetType
+						}
+					}
+				}
+			}
+		}`;
+
+		const response = await this.fetch<EmoteResponse>(query);
+		const user = response?.data?.user || null;
+
+		if (!user) {
+			return null;
+		}
+
+		const subEmotes = user?.subscriptionProducts ?? [];
+		const followerEmotes = user?.channel?.localEmoteSets ?? [];
+		const bitsEmotes = user?.cheer?.badgeTierEmotes ?? [];
+
+		const tiers: Record<string, keyof TwitchEmotes> = {
+			1000: 'tier1',
+			2000: 'tier2',
+			3000: 'tier3'
+		};
+
+		const emotes: TwitchEmotes = {
+			follower: [],
+			tier1: [],
+			tier2: [],
+			tier3: [],
+			bits: []
+		};
+
+		for (const sub of subEmotes) {
+			const key = tiers[sub.tier];
+
+			emotes[key].push(...sub.emotes.map(this.normalizeEmote));
+		}
+
+		emotes.bits = bitsEmotes.map(this.normalizeEmote) ?? [];
+		emotes.follower = followerEmotes?.flatMap((set) => set.emotes.map(this.normalizeEmote)) ?? [];
+
+		return emotes;
+	}
+
+	async getChannelBadges(channelId: string): Promise<TwitchBadges | null> {
+		const query = `{
+			user(id: "${channelId}") {
+				broadcastBadges {
+					id
+					setID
+					version
+					title
+					imageURL(size:DOUBLE)
+				}
+			}
+		}`;
+
+		const response = await this.fetch<any>(query);
+		const user = response?.data?.user || null;
+
+		if (!user) {
+			return null;
+		}
+
+		const badges = {
+			subscriber: [] as any,
+			bits: [] as any
+		};
+
+		user?.broadcastBadges?.map((badge: any) => {
+			if (badge.setID === 'bits') {
+				return badges.bits.push({
+					id: Number(badge.version),
+					title: badge.title,
+					image: badge.imageURL
+				});
+			}
+
+			if (badge.setID === 'subscriber') {
+				const version = Number(badge.version);
+				let tier = 1;
+				let months = version;
+
+				if (version >= 3000) {
+					tier = 3;
+					months = version - 3000;
+				} else if (version >= 2000) {
+					tier = 2;
+					months = version - 2000;
+				}
+
+				return badges.subscriber.push({
+					id: months * 10 + tier,
+					title: badge.title,
+					image: badge.imageURL,
+					description: `tier ${tier}`
+				});
+			}
+		});
+
+		badges.subscriber.sort((a: any, b: any) => a.id - b.id);
+		badges.bits.sort((a: any, b: any) => a.id - b.id);
+
+		return badges;
+	}
+
+	private normalizeEmote(e: ApiEmote): Emote {
+		const emote: Emote = {
+			id: e.id,
+			name: e.token,
+			image: `https://static-cdn.jtvnw.net/emoticons/v2/${e.id}/default/dark/3.0`
+		};
+
+		if (e.bitsBadgeTierSummary?.threshold) {
+			emote.description = `cost: ${e.bitsBadgeTierSummary.threshold} bits`;
+		}
+
+		return emote;
+	}
+
+	private getRole(roles: Roles): string {
 		if (roles.isPartner) return 'Partner';
 		if (roles.isAffiliate) return 'Affiliate';
 

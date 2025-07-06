@@ -67,7 +67,6 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 									title="Tier 3 Subscription Emotes"
 								/>
 								<EmoteSection emotes={data.emotes.twitch.bits} title="Bits Emotes" />
-								<EmoteSection emotes={data.emotes.twitch.other} title="Other Emotes" />
 							</div>
 						</>
 					)}

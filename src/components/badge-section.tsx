@@ -1,12 +1,10 @@
 'use client';
 
-import Badge from '@/components/badge';
 import BadgeCategory from '@/components/badge-category';
-import { Heading } from '@/components/ui/heading';
-import { CategorizedTwitchBadges } from '@/types/api/helix';
+import { TwitchBadges } from '@/types/api/tla';
 
 type BadgeSectionProps = {
-	badges: CategorizedTwitchBadges;
+	badges: TwitchBadges;
 };
 
 export default function BadgeSection({ badges }: BadgeSectionProps) {
@@ -19,16 +17,7 @@ export default function BadgeSection({ badges }: BadgeSectionProps) {
 	return (
 		<div className="grid gap-4 md:grid-cols-2">
 			{hasSubscriberBadges && (
-				<div className="flex flex-col gap-2">
-					<Heading as="h3" variant="compact">
-						Subscriber Badges
-					</Heading>
-					<div className="flex flex-wrap gap-2">
-						{badges.subscriber.map((version) => (
-							<Badge key={version.id} version={version} />
-						))}
-					</div>
-				</div>
+				<BadgeCategory as="h3" badges={badges.subscriber} title="Subscriber Badges" />
 			)}
 
 			{hasBitsBadges && <BadgeCategory as="h3" badges={badges.bits} title="Bits Badges" />}

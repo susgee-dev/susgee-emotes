@@ -1,12 +1,12 @@
 'use server';
 
-import helix from '@/lib/api/helix';
+import tla from '@/lib/api/tla';
 import { ChannelData } from '@/types/emotes';
 
 export async function fetchChannelData(channelId: string): Promise<ChannelData> {
 	const [twitchEmotes, twitchBadges] = await Promise.all([
-		helix.getChannelEmotes(channelId),
-		helix.getChannelBadges(channelId)
+		tla.getChannelEmotes(channelId),
+		tla.getChannelBadges(channelId)
 	]);
 
 	return {

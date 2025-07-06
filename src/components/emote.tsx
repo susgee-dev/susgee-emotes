@@ -4,7 +4,7 @@ import { Tooltip } from '@heroui/tooltip';
 import Image from 'next/image';
 
 import { Heading } from '@/components/ui/heading';
-import { TwitchEmote } from '@/types/api/helix';
+import { Emote as TwitchEmote } from '@/types/api/tla';
 
 export default function Emote({ emote }: { emote: TwitchEmote }) {
 	return (
@@ -12,9 +12,16 @@ export default function Emote({ emote }: { emote: TwitchEmote }) {
 			<Tooltip
 				color="foreground"
 				content={
-					<Heading as="h3" variant="compact">
-						{emote.name}
-					</Heading>
+					<>
+						<Heading as="h3" variant="compact">
+							{emote.name}
+						</Heading>
+						{emote.description && (
+							<Heading as="h4" variant="compact">
+								{emote.description}
+							</Heading>
+						)}
+					</>
 				}
 				placement="bottom"
 			>
@@ -23,7 +30,7 @@ export default function Emote({ emote }: { emote: TwitchEmote }) {
 					alt={emote.name}
 					height={56}
 					loading="lazy"
-					src={emote.images.fourX ?? emote.images.twoX ?? emote.images.oneX}
+					src={emote.image}
 					title={emote.name}
 					width={56}
 				/>

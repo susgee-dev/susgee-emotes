@@ -14,9 +14,9 @@ export default function Channel({ channel }: { channel: User }) {
 				<Image
 					alt={channel.login}
 					className="rounded-2xl border border-primary/30"
-					height={192}
+					height={150}
 					src={channel.avatar}
-					width={192}
+					width={150}
 				/>
 			)}
 			<div>
