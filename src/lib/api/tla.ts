@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 import BaseApi from './base';
 
+import { getBestName } from '@/lib/utils';
 import {
 	ApiBadge,
 	ApiEmote,
@@ -210,6 +211,7 @@ class Tla extends BaseApi {
 			emote(id: "${emoteId}") {
 				artist {
 					login
+					displayName
 				}
 				type
 				id
@@ -236,7 +238,7 @@ class Tla extends BaseApi {
 		const description = formattedType ? `${formattedType} emote` : '';
 
 		return {
-			artist: emote.artist?.login || null,
+			artist: emote.artist ? getBestName(emote.artist.login, emote.artist.displayName) : null,
 			type,
 			id: emote.id,
 			token: emote.token,
