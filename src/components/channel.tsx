@@ -13,7 +13,7 @@ export default function Channel({ channel }: { channel: User }) {
 			{channel.avatar && (
 				<Image
 					alt={channel.login}
-					className="rounded-2xl border border-primary/30"
+					className="rounded-2xl border border-primary/30 bg-gradient-bg"
 					height={150}
 					src={channel.avatar}
 					width={150}

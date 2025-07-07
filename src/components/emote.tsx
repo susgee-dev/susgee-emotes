@@ -73,8 +73,15 @@ export default function Emote({
 				/>
 			</Tooltip>
 
-			<Modal isOpen={isOpen} size="lg" onClose={() => setIsOpen(false)}>
-				<ModalContent>
+			<Modal
+				classNames={{
+					closeButton: 'text-2xl'
+				}}
+				isOpen={isOpen}
+				size="lg"
+				onClose={() => setIsOpen(false)}
+			>
+				<ModalContent className="border border-primary/30 bg-gradient-bg">
 					<ModalBody className="py-4">
 						<>
 							<div>
