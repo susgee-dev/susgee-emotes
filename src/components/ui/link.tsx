@@ -4,12 +4,19 @@ import NextLink from 'next/link';
 
 import { cn } from '@/lib/utils';
 
+const linkSizes = {
+	sm: 'text-sm',
+	md: 'text-medium',
+	lg: 'text-lg'
+};
+
 type LinkProps = ComponentPropsWithoutRef<'a'> & {
 	href: string;
 	className?: string;
 	unstyled?: boolean;
 	iconBefore?: ReactNode;
 	iconAfter?: ReactNode;
+	size?: keyof typeof linkSizes;
 };
 
 export function Link({
@@ -17,6 +24,7 @@ export function Link({
 	iconBefore,
 	href,
 	className,
+	size = 'md',
 	unstyled = false,
 	children,
 	...props
@@ -25,8 +33,9 @@ export function Link({
 		<NextLink
 			className={cn(
 				className,
+				linkSizes[size] || 'text-medium',
 				!unstyled &&
-					'relative inline-flex items-center gap-1 pl-1 text-medium text-primary transition-opacity tap-highlight-transparent hover:opacity-hover active:opacity-disabled',
+					'relative inline-flex items-center gap-1 text-primary transition-opacity tap-highlight-transparent hover:opacity-hover active:opacity-disabled',
 				'no-underline outline-none'
 			)}
 			href={href}
