@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { IconExternal } from '@/components/icons/external';
 import { Heading } from '@/components/ui/heading';
 import { Link } from '@/components/ui/link';
+import { pluralize } from '@/lib/utils';
 import { User } from '@/types/api/tla';
 
 export default function Channel({ channel }: { channel: User }) {
@@ -30,7 +31,9 @@ export default function Channel({ channel }: { channel: User }) {
 					<p className="text-lg text-muted-foreground">#{channel.id}</p>
 				</div>
 
-				<p className="text-lg">{channel.followers.toLocaleString('en-US')} Follower</p>
+				<p className="text-lg">
+					{channel.followers.toLocaleString('en-US')} {pluralize('Follower', channel.followers)}
+				</p>
 
 				{channel.role && <p className="text-lg">{channel.role}</p>}
 
