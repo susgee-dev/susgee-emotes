@@ -3,7 +3,9 @@ import 'dotenv/config';
 import BaseApi from './base';
 
 import {
+	ApiBadge,
 	ApiEmote,
+	BadgeResponse,
 	Emote,
 	EmoteResponse,
 	Roles,
@@ -154,23 +156,23 @@ class Tla extends BaseApi {
 			}
 		}`;
 
-		const response = await this.fetch<any>(query);
+		const response = await this.fetch<BadgeResponse>(query);
 		const user = response?.data?.user || null;
 
 		if (!user) {
 			return null;
 		}
 
-		const badges = {
-			subscriber: [] as any,
-			bits: [] as any
+		const badges: TwitchBadges = {
+			subscriber: [],
+			bits: []
 		};
 
-		user?.broadcastBadges?.map((badge: any) => {
+		user?.broadcastBadges?.map((badge: ApiBadge) => {
 			if (badge.setID === 'bits') {
 				return badges.bits.push({
 					id: Number(badge.version),
-					title: badge.title,
+					name: badge.title,
 					image: badge.imageURL
 				});
 			}
@@ -190,17 +192,59 @@ class Tla extends BaseApi {
 
 				return badges.subscriber.push({
 					id: months * 10 + tier,
-					title: badge.title,
+					name: badge.title,
 					image: badge.imageURL,
 					description: `tier ${tier}`
 				});
 			}
 		});
 
-		badges.subscriber.sort((a: any, b: any) => a.id - b.id);
-		badges.bits.sort((a: any, b: any) => a.id - b.id);
+		badges.subscriber.sort((a, b) => a.id - b.id);
+		badges.bits.sort((a, b) => a.id - b.id);
 
 		return badges;
+	}
+
+	async getEmoteDetails(emoteId: string): Promise<any> {
+		const query = `{
+			emote(id: "${emoteId}") {
+				artist {
+					login
+				}
+				type
+				id
+				token
+				setID
+				state
+				subscriptionTier
+				bitsBadgeTierSummary {
+					threshold
+				}
+			}
+		}`;
+
+		const response: any = await this.fetch(query);
+		const emote = response?.data?.emote || null;
+
+		if (!emote) return null;
+
+		const type = this.getEmoteType(emote.type);
+		const tier = emote.subscriptionTier?.replace('TIER_', '') || null;
+		const bits = emote.bitsBadgeTierSummary?.threshold || null;
+
+		const formattedType = this.formatEmoteDescription(type, tier, bits);
+		const description = formattedType ? `${formattedType} emote` : '';
+
+		return {
+			artist: emote.artist?.login || null,
+			type,
+			id: emote.id,
+			token: emote.token,
+			setID: emote.setID,
+			state: emote.state,
+			description,
+			image: `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/3.0`
+		};
 	}
 
 	private normalizeEmote(e: ApiEmote): Emote {
@@ -215,6 +259,33 @@ class Tla extends BaseApi {
 		}
 
 		return emote;
+	}
+
+	private getEmoteType(type: string): string {
+		switch (type) {
+			case 'BITS_BADGE_TIERS':
+				return 'Bits';
+			case 'SUBSCRIPTIONS':
+				return 'Subscription';
+			case 'ARCHIVE':
+				return 'Archive';
+		}
+
+		return 'Follower';
+	}
+
+	private formatEmoteDescription(
+		type: string,
+		tier: string | null = null,
+		bits: number | null = null
+	): string {
+		if (type === 'Subscription' && tier) {
+			return `Subscription Tier ${tier}`;
+		} else if (type === 'Bits' && bits) {
+			return `Bits ${bits}`;
+		} else {
+			return type;
+		}
 	}
 
 	private getRole(roles: Roles): string {

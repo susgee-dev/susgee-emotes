@@ -36,9 +36,10 @@ export default function Channel({ channel }: { channel: User }) {
 
 				<p>
 					<Link
-						className="items-start !pl-0 !text-lg"
+						align="top"
 						href={`https://twitch.tv/${channel.login}`}
 						iconAfter={<IconExternal size={14} />}
+						size="lg"
 						target="_blank"
 					>
 						Twitch

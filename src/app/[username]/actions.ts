@@ -18,3 +18,7 @@ export async function fetchChannelData(channelId: string): Promise<ChannelData> 
 		}
 	};
 }
+
+export async function getEmoteDetails(emoteId: string): Promise<any> {
+	return tla.getEmoteDetails(emoteId);
+}

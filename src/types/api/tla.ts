@@ -76,9 +76,25 @@ export type TwitchEmotes = {
 	bits: Emote[];
 };
 
+export type ApiBadge = {
+	id: string;
+	setID: string;
+	version: string;
+	title: string;
+	imageURL: string;
+};
+
+export type BadgeResponse = {
+	data: {
+		user: {
+			broadcastBadges: ApiBadge[];
+		};
+	};
+};
+
 export type Badge = {
 	id: number;
-	title: string;
+	name: string;
 	description?: string;
 	image: string;
 };
