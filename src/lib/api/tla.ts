@@ -228,15 +228,21 @@ class Tla extends BaseApi {
 
 		if (!emote) return null;
 
+		const type = this.getEmoteType(emote.type);
+		const tier = emote.subscriptionTier?.replace('TIER_', '') || null;
+		const bits = emote.bitsBadgeTierSummary?.threshold || null;
+
+		const formattedType = this.formatEmoteDescription(type, tier, bits);
+		const description = formattedType ? `${formattedType} emote` : '';
+
 		return {
 			artist: emote.artist?.login || null,
-			type: emote.type,
+			type,
 			id: emote.id,
 			token: emote.token,
 			setID: emote.setID,
 			state: emote.state,
-			tier: emote.subscriptionTier || null,
-			bits: emote.bitsBadgeTierSummary?.threshold || null,
+			description,
 			image: `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/3.0`
 		};
 	}
@@ -253,6 +259,33 @@ class Tla extends BaseApi {
 		}
 
 		return emote;
+	}
+
+	private getEmoteType(type: string): string {
+		switch (type) {
+			case 'BITS_BADGE_TIERS':
+				return 'Bits';
+			case 'SUBSCRIPTIONS':
+				return 'Subscription';
+			case 'ARCHIVE':
+				return 'Archive';
+		}
+
+		return 'Follower';
+	}
+
+	private formatEmoteDescription(
+		type: string,
+		tier: string | null = null,
+		bits: number | null = null
+	): string {
+		if (type === 'Subscription' && tier) {
+			return `Subscription Tier ${tier}`;
+		} else if (type === 'Bits' && bits) {
+			return `Bits ${bits}`;
+		} else {
+			return type;
+		}
 	}
 
 	private getRole(roles: Roles): string {

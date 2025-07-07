@@ -73,7 +73,7 @@ export default function Emote({
 				/>
 			</Tooltip>
 
-			<Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+			<Modal isOpen={isOpen} size="lg" onClose={() => setIsOpen(false)}>
 				<ModalContent>
 					<ModalBody className="py-4">
 						<>
@@ -95,34 +95,25 @@ export default function Emote({
 										src={emoteDetails.image}
 										width={112}
 									/>
-									<div className="flex flex-col gap-2">
-										<div>
-											<strong>Type:</strong> {emoteDetails.type}
-										</div>
-										{emoteDetails.tier && (
-											<div>
-												<strong>Tier:</strong> {emoteDetails.tier}
-											</div>
-										)}
-										{emoteDetails.bits && (
-											<div>
-												<strong>Bits:</strong> {emoteDetails.bits}
-											</div>
-										)}
-										{emoteDetails.artist && (
-											<div>
-												<strong>Artist:</strong>{' '}
-												<Link href={`/${emoteDetails.artist}`}>{emoteDetails.artist}</Link>{' '}
-												<Link
-													href={`https://twitch.tv/${emoteDetails.artist}`}
-													iconAfter={<IconExternal size={14} />}
-													target="_blank"
-												>
-													Twitch
-												</Link>
-											</div>
-										)}
-									</div>
+									<p className="text-lg font-medium">{emoteDetails.description}</p>
+									{emoteDetails.artist && (
+										<p className="text-lg">
+											<strong>Artist:</strong>{' '}
+											<Link href={`/${emoteDetails.artist}`} size="lg">
+												{emoteDetails.artist}
+											</Link>
+											{' | '}
+											<Link
+												align="top"
+												href={`https://twitch.tv/${emoteDetails.artist}`}
+												iconAfter={<IconExternal size={14} />}
+												size="lg"
+												target="_blank"
+											>
+												Twitch
+											</Link>
+										</p>
+									)}
 								</div>
 							) : (
 								<div className="flex justify-center p-4">
