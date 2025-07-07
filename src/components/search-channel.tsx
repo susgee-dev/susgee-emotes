@@ -1,5 +1,7 @@
 'use client';
 
+import { Input } from '@heroui/input';
+import { SearchIcon } from '@heroui/shared-icons';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
@@ -31,15 +33,18 @@ export default function SearchChannel() {
 					ease: 'easeInOut'
 				}}
 			>
-				<input
+				<Input
 					autoComplete="off"
-					className="w-full rounded-lg border border-primary/30 bg-transparent px-4 py-2 text-font placeholder-font/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/60"
+					color="primary"
 					maxLength={25}
 					minLength={1}
 					name="username"
 					placeholder="Enter Twitch channel name"
+					radius="sm"
+					startContent={<SearchIcon />}
 					type="text"
 					value={inputValue}
+					variant="bordered"
 					onChange={handleInput}
 				/>
 			</motion.div>
