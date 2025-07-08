@@ -8,11 +8,39 @@ import '@/styles/globals.css';
 
 export const metadata: Metadata = {
 	title: {
-		default: 'susgee-dev',
+		default: 'Twitch Emotes/Badges Browser',
 		template: '%s | susgee-dev'
 	},
+	description: 'Explore emotes and badges from any Twitch channel in one convenient place',
+	authors: [{ name: 'maersux', url: 'https://github.com/maersux' }],
+	publisher: 'susgee-dev',
+	metadataBase: new URL('https://emotes.susgee.dev'),
+	openGraph: {
+		type: 'website',
+		title: 'Twitch Emotes/Badges Browser',
+		description:
+			'View all emotes and badges from your favorite Twitch streamers - includes follow, subscriber, and bits content',
+		siteName: 'susgee-emotes',
+		url: 'https://emotes.susgee.dev',
+		images: [
+			{
+				url: '/share_image.png',
+				width: 800,
+				height: 420,
+				alt: 'Twitch Emotes/Badges Browser'
+			}
+		]
+	},
+	twitter: {
+		card: 'summary_large_image',
+		title: 'Twitch Emotes/Badges Browser',
+		description:
+			'Discover all emotes and badges from Twitch channels - perfect for finding your next subscription',
+		images: ['/share_image.png']
+	},
 	other: {
-		'darkreader-lock': ['darkreader-lock']
+		'darkreader-lock': ['darkreader-lock'],
+		github: 'https://github.com/susgee-dev/susgee-emotes'
 	}
 };
 

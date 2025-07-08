@@ -19,6 +19,38 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
 		};
 	}
 
+	try {
+		const channel = await tla.getUser(username);
+
+		if (channel) {
+			const title = `${channel.bestName}'s Twitch emotes/badges`;
+			const description = `Explore all Twitch emotes and badges for ${channel.bestName}, including subscriber tier emotes, follower emotes, and bit badges`;
+
+			return {
+				title,
+				description,
+				openGraph: {
+					title,
+					description,
+					images: [
+						{
+							url: channel.avatar,
+							width: 300,
+							height: 300,
+							alt: `${channel.bestName}'s profile picture`
+						}
+					]
+				},
+				twitter: {
+					card: 'summary_large_image',
+					title,
+					description,
+					images: [channel.avatar]
+				}
+			};
+		}
+	} catch {}
+
 	return {
 		title: `${username}'s Twitch Emotes`,
 		description: `Twitch channel emotes from ${username}`,

@@ -65,6 +65,7 @@ class Tla extends BaseApi {
 			id: user.id,
 			login: user.login,
 			displayName: user.displayName,
+			bestName: getBestName(user.login, user.displayName),
 			description: user.description,
 			color: user.chatColor,
 			createdAt: user.createdAt,

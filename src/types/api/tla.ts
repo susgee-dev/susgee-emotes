@@ -25,6 +25,7 @@ export type User = {
 	id: string;
 	login: string;
 	displayName: string;
+	bestName: string;
 	description: string;
 	color: string;
 	createdAt: string;
