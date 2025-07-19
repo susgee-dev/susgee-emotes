@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { Outfit as Font } from 'next/font/google';
+import Script from 'next/script';
 import React from 'react';
 
 import Footer from '@/components/footer';
@@ -56,6 +57,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					{children}
 				</main>
 				<Footer />
+				{process.env.TRACKING_ID && (
+					<Script
+						defer
+						data-website-id={process.env.TRACKING_ID}
+						src="https://umami.susgee.dev/script.js"
+						strategy="afterInteractive"
+					/>
+				)}
 			</body>
 		</html>
 	);
