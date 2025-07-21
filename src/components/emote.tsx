@@ -3,7 +3,7 @@
 import { Modal, ModalBody, ModalContent } from '@heroui/modal';
 import { Tooltip } from '@heroui/tooltip';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { getEmoteDetails } from '@/app/[username]/actions';
 import { IconExternal } from '@/components/icons/external';
@@ -16,16 +16,37 @@ import { Emote as TwitchEmote } from '@/types/api/tla';
 
 export default function Emote({
 	emote,
-	searchQuery = ''
+	searchQuery = '',
+	initiallyOpen = false
 }: {
 	emote: TwitchEmote;
 	searchQuery?: string;
+	initiallyOpen?: boolean;
 }) {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(initiallyOpen);
 	const [emoteDetails, setEmoteDetails] = useState<any>(null);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const isMatch = !searchQuery || emote.name.toLowerCase().includes(searchQuery.toLowerCase());
+	
+	// Load emote details when initiallyOpen is true
+	useEffect(() => {
+		if (initiallyOpen) {
+			const loadEmoteDetails = async () => {
+				setIsLoading(true);
+				try {
+					const details = await getEmoteDetails(emote.id);
+					setEmoteDetails(details);
+				} catch (error) {
+					logger.error('Failed to fetch emote details:', error);
+				} finally {
+					setIsLoading(false);
+				}
+			};
+			
+			loadEmoteDetails();
+		}
+	}, [initiallyOpen, emote.id]);
 
 	const handleEmoteClick = async () => {
 		setIsOpen(true);
