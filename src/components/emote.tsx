@@ -3,11 +3,13 @@
 import { Modal, ModalBody, ModalContent } from '@heroui/modal';
 import { Tooltip } from '@heroui/tooltip';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getEmoteDetails } from '@/app/[username]/actions';
+import { IconCopy } from '@/components/icons/copy';
 import { IconExternal } from '@/components/icons/external';
 import LoadingSpinner from '@/components/loading-spinner';
+import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Link } from '@/components/ui/link';
 import logger from '@/lib/logger';
@@ -26,16 +28,17 @@ export default function Emote({
 	const [isOpen, setIsOpen] = useState(initiallyOpen);
 	const [emoteDetails, setEmoteDetails] = useState<any>(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [copySuccess, setCopySuccess] = useState(false);
 
 	const isMatch = !searchQuery || emote.name.toLowerCase().includes(searchQuery.toLowerCase());
-	
-	// Load emote details when initiallyOpen is true
+
 	useEffect(() => {
 		if (initiallyOpen) {
 			const loadEmoteDetails = async () => {
 				setIsLoading(true);
 				try {
 					const details = await getEmoteDetails(emote.id);
+
 					setEmoteDetails(details);
 				} catch (error) {
 					logger.error('Failed to fetch emote details:', error);
@@ -43,7 +46,7 @@ export default function Emote({
 					setIsLoading(false);
 				}
 			};
-			
+
 			loadEmoteDetails();
 		}
 	}, [initiallyOpen, emote.id]);
@@ -60,6 +63,21 @@ export default function Emote({
 			logger.error('Failed to fetch emote details:', error);
 		} finally {
 			setIsLoading(false);
+		}
+	};
+
+	const handleCopyLink = async () => {
+		const url = new URL(window.location.href);
+
+		url.searchParams.set('emote', emote.id);
+		const link = url.toString();
+
+		try {
+			await navigator.clipboard.writeText(link);
+			setCopySuccess(true);
+			setTimeout(() => setCopySuccess(false), 2000);
+		} catch (error) {
+			logger.error('Failed to copy link:', error);
 		}
 	};
 
@@ -142,6 +160,10 @@ export default function Emote({
 											</Link>
 										</p>
 									)}
+									<Button className="w-fit !p-0" size="sm" variant="ghost" onClick={handleCopyLink}>
+										<IconCopy size={16} />
+										{copySuccess ? 'Copied!' : 'Copy emote URL'}
+									</Button>
 								</div>
 							) : (
 								<div className="flex justify-center p-4">

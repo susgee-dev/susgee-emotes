@@ -9,7 +9,7 @@ type EmoteSectionProps = {
 	emotes: TwitchEmote[];
 	as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 	searchQuery?: string;
-	initialEmoteId?: string;
+	initialEmoteId: string | null;
 };
 
 export default function EmoteSection({
@@ -17,7 +17,7 @@ export default function EmoteSection({
 	emotes,
 	as = 'h3',
 	searchQuery = '',
-	initialEmoteId
+	initialEmoteId = null
 }: EmoteSectionProps) {
 	if (!emotes.length) return null;
 
@@ -28,11 +28,11 @@ export default function EmoteSection({
 			</Heading>
 			<div className="flex flex-wrap gap-2">
 				{emotes.map((emote) => (
-					<Emote 
-						key={emote.id} 
-						emote={emote} 
-						searchQuery={searchQuery}
+					<Emote
+						key={emote.id}
+						emote={emote}
 						initiallyOpen={initialEmoteId === emote.id}
+						searchQuery={searchQuery}
 					/>
 				))}
 			</div>
