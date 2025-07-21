@@ -75,30 +75,35 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 									searchQuery={searchQuery}
 									title="Follower Emotes"
 									initialEmoteId={emoteId || undefined}
+									channel={channel.login}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.tier1}
 									searchQuery={searchQuery}
 									title="Tier 1 Subscription Emotes"
 									initialEmoteId={emoteId || undefined}
+									channel={channel.login}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.tier2}
 									searchQuery={searchQuery}
 									title="Tier 2 Subscription Emotes"
 									initialEmoteId={emoteId || undefined}
+									channel={channel.login}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.tier3}
 									searchQuery={searchQuery}
 									title="Tier 3 Subscription Emotes"
 									initialEmoteId={emoteId || undefined}
+									channel={channel.login}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.bits}
 									searchQuery={searchQuery}
 									title="Bits Emotes"
 									initialEmoteId={emoteId || undefined}
+									channel={channel.login}
 								/>
 							</div>
 						</>

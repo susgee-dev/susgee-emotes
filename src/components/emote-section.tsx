@@ -10,6 +10,7 @@ type EmoteSectionProps = {
 	as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 	searchQuery?: string;
 	initialEmoteId?: string;
+	channel?: string;
 };
 
 export default function EmoteSection({
@@ -17,7 +18,8 @@ export default function EmoteSection({
 	emotes,
 	as = 'h3',
 	searchQuery = '',
-	initialEmoteId
+	initialEmoteId,
+	channel = ''
 }: EmoteSectionProps) {
 	if (!emotes.length) return null;
 
@@ -33,6 +35,7 @@ export default function EmoteSection({
 						emote={emote} 
 						searchQuery={searchQuery}
 						initiallyOpen={initialEmoteId === emote.id}
+						channel={channel}
 					/>
 				))}
 			</div>

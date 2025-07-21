@@ -7,9 +7,11 @@ import { useState, useEffect } from 'react';
 
 import { getEmoteDetails } from '@/app/[username]/actions';
 import { IconExternal } from '@/components/icons/external';
+import { IconCopy } from '@/components/icons/copy';
 import LoadingSpinner from '@/components/loading-spinner';
 import { Heading } from '@/components/ui/heading';
 import { Link } from '@/components/ui/link';
+import { Button } from '@/components/ui/button';
 import logger from '@/lib/logger';
 import { cn } from '@/lib/utils';
 import { Emote as TwitchEmote } from '@/types/api/tla';
@@ -17,15 +19,18 @@ import { Emote as TwitchEmote } from '@/types/api/tla';
 export default function Emote({
 	emote,
 	searchQuery = '',
-	initiallyOpen = false
+	initiallyOpen = false,
+	channel = ''
 }: {
 	emote: TwitchEmote;
 	searchQuery?: string;
 	initiallyOpen?: boolean;
+	channel?: string;
 }) {
 	const [isOpen, setIsOpen] = useState(initiallyOpen);
 	const [emoteDetails, setEmoteDetails] = useState<any>(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [copySuccess, setCopySuccess] = useState(false);
 
 	const isMatch = !searchQuery || emote.name.toLowerCase().includes(searchQuery.toLowerCase());
 	
@@ -60,6 +65,19 @@ export default function Emote({
 			logger.error('Failed to fetch emote details:', error);
 		} finally {
 			setIsLoading(false);
+		}
+	};
+
+	const handleCopyLink = async () => {
+		const baseUrl = window.location.origin;
+		const link = `${baseUrl}/${channel}?emote=${emote.id}`;
+		
+		try {
+			await navigator.clipboard.writeText(link);
+			setCopySuccess(true);
+			setTimeout(() => setCopySuccess(false), 2000);
+		} catch (error) {
+			logger.error('Failed to copy link:', error);
 		}
 	};
 
@@ -142,6 +160,15 @@ export default function Emote({
 											</Link>
 										</p>
 									)}
+									<Button
+										size="sm"
+										variant="ghost"
+										onClick={handleCopyLink}
+										className="w-fit"
+									>
+										<IconCopy size={16} />
+										{copySuccess ? "Copied!" : "Copy Emote URL"}
+									</Button>
 								</div>
 							) : (
 								<div className="flex justify-center p-4">
