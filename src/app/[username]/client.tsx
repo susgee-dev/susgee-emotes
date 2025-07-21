@@ -18,8 +18,8 @@ import { ChannelData } from '@/types/emotes';
 
 export default function ChannelPageClient({ channel }: { channel: User }) {
 	const searchParams = useSearchParams();
-	const emoteId = searchParams.get('emote');
-	
+	const emoteId = searchParams.get('emote') || null;
+
 	const [data, setData] = useState<ChannelData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
@@ -72,38 +72,33 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 							<div className="flex flex-col gap-6">
 								<EmoteSection
 									emotes={data.emotes.twitch.follower}
+									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Follower Emotes"
-									initialEmoteId={emoteId || undefined}
-									channel={channel.login}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.tier1}
+									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Tier 1 Subscription Emotes"
-									initialEmoteId={emoteId || undefined}
-									channel={channel.login}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.tier2}
+									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Tier 2 Subscription Emotes"
-									initialEmoteId={emoteId || undefined}
-									channel={channel.login}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.tier3}
+									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Tier 3 Subscription Emotes"
-									initialEmoteId={emoteId || undefined}
-									channel={channel.login}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.bits}
+									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Bits Emotes"
-									initialEmoteId={emoteId || undefined}
-									channel={channel.login}
 								/>
 							</div>
 						</>
