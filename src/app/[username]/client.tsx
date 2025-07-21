@@ -2,6 +2,7 @@
 
 import { Input } from '@heroui/input';
 import { SearchIcon } from '@heroui/shared-icons';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { fetchChannelData } from './actions';
@@ -16,6 +17,9 @@ import { User } from '@/types/api/tla';
 import { ChannelData } from '@/types/emotes';
 
 export default function ChannelPageClient({ channel }: { channel: User }) {
+	const searchParams = useSearchParams();
+	const emoteId = searchParams.get('emote');
+	
 	const [data, setData] = useState<ChannelData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
@@ -70,26 +74,31 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 									emotes={data.emotes.twitch.follower}
 									searchQuery={searchQuery}
 									title="Follower Emotes"
+									initialEmoteId={emoteId || undefined}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.tier1}
 									searchQuery={searchQuery}
 									title="Tier 1 Subscription Emotes"
+									initialEmoteId={emoteId || undefined}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.tier2}
 									searchQuery={searchQuery}
 									title="Tier 2 Subscription Emotes"
+									initialEmoteId={emoteId || undefined}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.tier3}
 									searchQuery={searchQuery}
 									title="Tier 3 Subscription Emotes"
+									initialEmoteId={emoteId || undefined}
 								/>
 								<EmoteSection
 									emotes={data.emotes.twitch.bits}
 									searchQuery={searchQuery}
 									title="Bits Emotes"
+									initialEmoteId={emoteId || undefined}
 								/>
 							</div>
 						</>
