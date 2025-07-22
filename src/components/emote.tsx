@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Link } from '@/components/ui/link';
 import logger from '@/lib/logger';
-import { cn } from '@/lib/utils';
+import { cn, getEmoteDimensions } from '@/lib/utils';
 import { Emote as TwitchEmote } from '@/types/api/tla';
 
 export default function Emote({
@@ -31,6 +31,8 @@ export default function Emote({
 	const [copySuccess, setCopySuccess] = useState(false);
 
 	const isMatch = !searchQuery || emote.name.toLowerCase().includes(searchQuery.toLowerCase());
+	const mainEmoteDimensions = getEmoteDimensions(emote.id);
+	const modalEmoteDimensions = getEmoteDimensions(emote.id, 112);
 
 	useEffect(() => {
 		if (initiallyOpen) {
@@ -103,11 +105,11 @@ export default function Emote({
 					unoptimized
 					alt={emote.name}
 					className={cn('cursor-pointer duration-300', !isMatch && 'opacity-20')}
-					height={56}
+					height={mainEmoteDimensions.height}
 					loading="lazy"
 					src={emote.image}
 					title={emote.name}
-					width={56}
+					width={mainEmoteDimensions.width}
 					onClick={handleEmoteClick}
 				/>
 			</Tooltip>
@@ -137,9 +139,9 @@ export default function Emote({
 									<Image
 										unoptimized
 										alt={emote.name}
-										height={112}
+										height={modalEmoteDimensions.height}
 										src={emoteDetails.image}
-										width={112}
+										width={modalEmoteDimensions.width}
 									/>
 									<p className="text-lg font-medium">{emoteDetails.description}</p>
 									{emoteDetails.artist && (
