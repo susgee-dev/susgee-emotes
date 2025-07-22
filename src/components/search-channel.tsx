@@ -23,6 +23,7 @@ export default function SearchChannel() {
 	};
 
 	return (
+		<div className="flex w-full flex-col gap-4">
 		<form className="flex w-full items-center space-x-2" onSubmit={handleSubmit}>
 			<motion.div
 				animate={{ opacity: 1, scale: 1 }}
@@ -62,5 +63,6 @@ export default function SearchChannel() {
 				Go
 			</motion.button>
 		</form>
+		</div>
 	);
 }
