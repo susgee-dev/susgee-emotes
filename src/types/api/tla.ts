@@ -94,6 +94,7 @@ export type TwitchGlobalEmotes = {
 	global: Emote[];
 	turbo: Emote[];
 	prime: Emote[];
+	hypeTrain: Emote[];
 };
 
 export type ApiBadge = {

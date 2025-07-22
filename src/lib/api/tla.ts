@@ -111,7 +111,8 @@ class Tla extends BaseApi {
 				).values()
 			),
 			turbo: emoteSets.turbo.emotes.map(this.normalizeEmote),
-			prime: emoteSets.prime.emotes.map(this.normalizeEmote)
+			prime: emoteSets.prime.emotes.map(this.normalizeEmote),
+			hypeTrain: []
 		};
 	}
 
@@ -317,6 +318,10 @@ class Tla extends BaseApi {
 				return 'Turbo';
 			case 'SMILIES':
 				return 'Smiley';
+			case 'LIMITED_TIME':
+				return 'Limited Time';
+			case 'HYPE_TRAIN':
+				return 'Hype Train';
 		}
 
 		console.log(type);

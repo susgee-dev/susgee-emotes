@@ -88,6 +88,12 @@ export default function GlobalEmotesClient() {
 									searchQuery={searchQuery}
 									title="Prime Emotes"
 								/>
+								<EmoteSection
+									emotes={data.emotes.twitch.hypeTrain}
+									initialEmoteId={emoteId}
+									searchQuery={searchQuery}
+									title="Hype Train Emotes"
+								/>
 							</div>
 						</>
 					)}
