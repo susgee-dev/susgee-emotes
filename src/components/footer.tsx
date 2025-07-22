@@ -28,6 +28,10 @@ export default function Footer() {
 						maersux
 					</Link>
 				</p>
+				<span className="hidden md:flex"> • </span>
+				<p>
+					<Link href="/global">Global Emotes</Link>
+				</p>
 			</div>
 		</footer>
 	);
