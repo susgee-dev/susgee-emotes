@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 import ClientPage from './client';
 
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default async function GlobalEmotesPage() {
-	return <ClientPage />;
+	return (
+		<Suspense>
+			<ClientPage />
+		</Suspense>
+	);
 }
