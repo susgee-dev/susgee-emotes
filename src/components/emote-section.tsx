@@ -26,7 +26,7 @@ export default function EmoteSection({
 			<Heading as={as} variant="compact">
 				{title}
 			</Heading>
-			<div className="flex flex-wrap gap-2">
+			<div className="flex flex-wrap items-baseline gap-2">
 				{emotes.map((emote) => (
 					<Emote
 						key={emote.id}

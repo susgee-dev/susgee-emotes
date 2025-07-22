@@ -9,9 +9,11 @@ import {
 	BadgeResponse,
 	Emote,
 	EmoteResponse,
+	GlobalEmoteResponse,
 	Roles,
 	TwitchBadges,
 	TwitchEmotes,
+	TwitchGlobalEmotes,
 	User,
 	UserResponse
 } from '@/types/api/tla';
@@ -75,6 +77,44 @@ class Tla extends BaseApi {
 		};
 	}
 
+	async getGlobalEmotes(): Promise<TwitchGlobalEmotes | null> {
+		const query = `query {
+			global: emoteSet(id: "0") {
+        emotes {
+					id
+					token
+        }
+      }
+      turbo: emoteSet(id: "793") {
+        emotes {
+        	id
+					token
+        }
+      }
+      prime: emoteSet(id: "19194") {
+      	emotes {
+      		id
+      		token
+      	}
+      }
+    }`;
+
+		const response = await this.fetch<GlobalEmoteResponse>(query);
+		const emoteSets = response?.data || null;
+
+		if (!emoteSets) return null;
+
+		return {
+			global: Array.from(
+				new Map(
+					emoteSets.global.emotes.map(this.normalizeEmote).map((emote) => [emote.name, emote])
+				).values()
+			),
+			turbo: emoteSets.turbo.emotes.map(this.normalizeEmote),
+			prime: emoteSets.prime.emotes.map(this.normalizeEmote)
+		};
+	}
+
 	async getChannelEmotes(channelId: string): Promise<TwitchEmotes | null> {
 		const query = `{
 			user(id: "${channelId}") {
@@ -82,7 +122,6 @@ class Tla extends BaseApi {
 					badgeTierEmotes (filter: ALL) {
 						id
 						token
-						assetType
 						bitsBadgeTierSummary {
 							threshold
 						}
@@ -93,7 +132,6 @@ class Tla extends BaseApi {
 					emotes {
 						id
 						token
-						assetType
 					}
 				}
 				channel {
@@ -101,7 +139,6 @@ class Tla extends BaseApi {
 						emotes {
 							id
 							token
-							assetType
 						}
 					}
 				}
@@ -272,7 +309,17 @@ class Tla extends BaseApi {
 				return 'Subscription';
 			case 'ARCHIVE':
 				return 'Archive';
+			case 'GLOBALS':
+				return 'Global';
+			case 'PRIME':
+				return 'Prime';
+			case 'TURBO':
+				return 'Turbo';
+			case 'SMILIES':
+				return 'Smiley';
 		}
+
+		console.log(type);
 
 		return 'Follower';
 	}

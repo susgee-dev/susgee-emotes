@@ -1,4 +1,4 @@
-import { TwitchBadges, TwitchEmotes } from '@/types/api/tla';
+import { TwitchBadges, TwitchEmotes, TwitchGlobalEmotes } from '@/types/api/tla';
 
 export type ChannelData = {
 	emotes: {
@@ -6,5 +6,11 @@ export type ChannelData = {
 	};
 	badges: {
 		twitch: TwitchBadges | null;
+	};
+};
+
+export type GlobalData = {
+	emotes: {
+		twitch: TwitchGlobalEmotes | null;
 	};
 };

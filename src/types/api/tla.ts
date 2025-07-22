@@ -35,7 +35,6 @@ export type User = {
 };
 
 export type ApiEmote = {
-	assetType: string;
 	token: string;
 	id: string;
 	bitsBadgeTierSummary?: {
@@ -48,6 +47,20 @@ export type Emote = {
 	name: string;
 	description?: string;
 	image: string;
+};
+
+export type GlobalEmoteResponse = {
+	data: {
+		global: {
+			emotes: ApiEmote[];
+		};
+		turbo: {
+			emotes: ApiEmote[];
+		};
+		prime: {
+			emotes: ApiEmote[];
+		};
+	};
 };
 
 export type EmoteResponse = {
@@ -75,6 +88,12 @@ export type TwitchEmotes = {
 	tier2: Emote[];
 	tier3: Emote[];
 	bits: Emote[];
+};
+
+export type TwitchGlobalEmotes = {
+	global: Emote[];
+	turbo: Emote[];
+	prime: Emote[];
 };
 
 export type ApiBadge = {
