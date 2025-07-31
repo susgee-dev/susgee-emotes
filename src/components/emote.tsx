@@ -5,7 +5,7 @@ import { Tooltip } from '@heroui/tooltip';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-import { getEmoteDetails } from '@/app/[username]/actions';
+import { getEmoteDetails } from '@/app/actions';
 import { IconCopy } from '@/components/icons/copy';
 import { IconExternal } from '@/components/icons/external';
 import LoadingSpinner from '@/components/loading-spinner';
@@ -125,47 +125,87 @@ export default function Emote({
 				<ModalContent className="border border-primary/30 bg-gradient-bg">
 					<ModalBody className="py-4">
 						<>
-							<div>
-								<Heading variant="compact">{emote.name}</Heading>
-								<Heading as="h4" className="break-word" variant="compact">
-									{emote.id}
-								</Heading>
-							</div>
+							<Heading variant="compact">{emote.name}</Heading>
 
 							{isLoading ? (
 								<LoadingSpinner text="Loading emote details..." />
 							) : emoteDetails ? (
-								<div className="flex flex-col gap-4">
-									<Image
-										unoptimized
-										alt={emote.name}
-										height={modalEmoteDimensions.height}
-										src={emoteDetails.image}
-										width={modalEmoteDimensions.width}
-									/>
-									<p className="text-lg font-medium">{emoteDetails.description}</p>
-									{emoteDetails.artist && (
-										<p className="text-lg">
-											<strong>Artist:</strong>{' '}
-											<Link href={`/${emoteDetails.artist}`} size="lg">
-												{emoteDetails.artist}
+								<div className="flex flex-col gap-6">
+									<div className="flex flex-col gap-4 md:flex-row">
+										<Image
+											unoptimized
+											alt={emote.name}
+											height={modalEmoteDimensions.height}
+											src={emoteDetails.image}
+											style={{ objectFit: 'contain' }}
+											width={modalEmoteDimensions.width}
+										/>
+										<div className="flex flex-col gap-2">
+											<p className="text-lg font-medium">{emoteDetails.description}</p>
+											<p className="break-word text-sm text-gray-400">
+												<span className="font-medium">ID:</span> {emote.id}
+											</p>
+
+											{emoteDetails.artist && (
+												<p className="text-lg">
+													<span className="font-medium">Artist:</span>{' '}
+													<Link href={`/${emoteDetails.artist}`} size="lg">
+														{emoteDetails.artist}
+													</Link>
+													{' | '}
+													<Link
+														align="top"
+														href={`https://twitch.tv/${emoteDetails.artist}`}
+														iconAfter={<IconExternal size={14} />}
+														size="lg"
+														target="_blank"
+													>
+														Twitch
+													</Link>
+												</p>
+											)}
+											{emoteDetails.owner && (
+												<p className="text-lg">
+													<span className="font-medium">Owner:</span>{' '}
+													<Link href={`/${emoteDetails.owner.login}`} size="lg">
+														{emoteDetails.owner.bestName}
+													</Link>
+													{' | '}
+													<Link
+														align="top"
+														href={`https://twitch.tv/${emoteDetails.owner.login}`}
+														iconAfter={<IconExternal size={14} />}
+														size="lg"
+														target="_blank"
+													>
+														Twitch
+													</Link>
+												</p>
+											)}
+											{emoteDetails.setID && (
+												<p className="break-word text-sm text-gray-400">
+													<span className="font-medium">Emote Set:</span>{' '}
+													<Link href={`/set/${emoteDetails.setID}`} size="sm">
+														{emoteDetails.setID}
+													</Link>
+												</p>
+											)}
+										</div>
+									</div>
+
+									<div className="flex flex-col gap-3">
+										<div className="border-t border-gray-700" />
+										<div className="flex flex-row justify-end gap-4">
+											<Button className="w-fit" size="sm" variant="ghost" onClick={handleCopyLink}>
+												<IconCopy size={16} />
+												{copySuccess ? 'Copied!' : 'Copy URL'}
+											</Button>
+											<Link className="flex items-center" href={`/emote/${emote.id}`} size="sm">
+												<IconExternal size={14} />
+												Details Page
 											</Link>
-											{' | '}
-											<Link
-												align="top"
-												href={`https://twitch.tv/${emoteDetails.artist}`}
-												iconAfter={<IconExternal size={14} />}
-												size="lg"
-												target="_blank"
-											>
-												Twitch
-											</Link>
-										</p>
-									)}
-									<Button className="w-fit !p-0" size="sm" variant="ghost" onClick={handleCopyLink}>
-										<IconCopy size={16} />
-										{copySuccess ? 'Copied!' : 'Copy emote URL'}
-									</Button>
+										</div>
+									</div>
 								</div>
 							) : (
 								<div className="flex justify-center p-4">

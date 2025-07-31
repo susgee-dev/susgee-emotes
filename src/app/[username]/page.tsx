@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import ClientPage from './client';
 
-import tla from '@/lib/api/tla';
+import { getUserData } from '@/app/actions';
 
 type PageParams = {
 	params: Promise<{ username: string }>;
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
 	}
 
 	try {
-		const channel = await tla.getUser(username);
+		const channel = await getUserData(username);
 
 		if (channel) {
 			const title = `${channel.bestName}'s Twitch emotes/badges`;
@@ -68,7 +68,7 @@ export default async function ChannelPage({ params }: PageParams) {
 		notFound();
 	}
 
-	const channel = await tla.getUser(username);
+	const channel = await getUserData(username);
 
 	if (!channel) {
 		notFound();

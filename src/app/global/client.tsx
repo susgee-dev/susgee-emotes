@@ -5,8 +5,7 @@ import { SearchIcon } from '@heroui/shared-icons';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { fetchGlobalEmotes } from './actions';
-
+import { fetchGlobalEmotes } from '@/app/actions';
 import EmoteSection from '@/components/emote-section';
 import LoadingSpinner from '@/components/loading-spinner';
 import Error from '@/components/ui/error';

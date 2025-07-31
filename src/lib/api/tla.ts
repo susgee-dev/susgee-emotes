@@ -8,7 +8,9 @@ import {
 	ApiEmote,
 	BadgeResponse,
 	Emote,
+	EmoteDetails,
 	EmoteResponse,
+	EmoteSet,
 	GlobalEmoteResponse,
 	Roles,
 	TwitchBadges,
@@ -245,10 +247,73 @@ class Tla extends BaseApi {
 		return badges;
 	}
 
-	async getEmoteDetails(emoteId: string): Promise<any> {
+	async getEmoteSet(setID: string): Promise<EmoteSet | null> {
+		const query = `{
+			emoteSet(id: "${setID}") {
+				id
+				owner {
+					id
+					login
+					displayName
+				}
+				emotes {
+					id
+					token
+					bitsBadgeTierSummary {
+						threshold
+					}
+				}
+			}
+		}`;
+
+		const response: any = await this.fetch(query);
+		const set = response?.data?.emoteSet || null;
+
+		if (!set) return null;
+
+		let owner: User | null = null;
+
+		if (set.owner) {
+			// Fetch full user details for the owner
+			owner = await this.getUser(set.owner.login);
+
+			// If for some reason we can't get the full user details, fall back to basic info
+			if (!owner) {
+				owner = {
+					id: set.owner.id,
+					login: set.owner.login,
+					displayName: set.owner.displayName,
+					bestName: getBestName(set.owner.login, set.owner.displayName),
+					description: '',
+					color: '',
+					createdAt: '',
+					followers: 0,
+					avatar: '',
+					role: ''
+				};
+			}
+		}
+
+		const normalizedEmotes = set.emotes.map(this.normalizeEmote);
+		const subtitle = this.determineEmoteSetSubtitle(set.id, normalizedEmotes, owner);
+
+		return {
+			id: set.id,
+			owner,
+			emotes: normalizedEmotes,
+			subtitle
+		};
+	}
+
+	async getEmoteDetails(emoteId: string): Promise<EmoteDetails | null> {
 		const query = `{
 			emote(id: "${emoteId}") {
 				artist {
+					login
+					displayName
+				}
+				owner {
+					id
 					login
 					displayName
 				}
@@ -276,6 +341,17 @@ class Tla extends BaseApi {
 		const formattedType = this.formatEmoteDescription(type, tier, bits);
 		const description = formattedType ? `${formattedType} emote` : '';
 
+		let owner = null;
+
+		if (emote.owner) {
+			owner = {
+				id: emote.owner.id,
+				login: emote.owner.login,
+				displayName: emote.owner.displayName,
+				bestName: getBestName(emote.owner.login, emote.owner.displayName)
+			};
+		}
+
 		return {
 			artist: emote.artist ? getBestName(emote.artist.login, emote.artist.displayName) : null,
 			type,
@@ -284,7 +360,8 @@ class Tla extends BaseApi {
 			setID: emote.setID,
 			state: emote.state,
 			description,
-			image: `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/3.0`
+			image: `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/3.0`,
+			owner
 		};
 	}
 
@@ -324,8 +401,6 @@ class Tla extends BaseApi {
 				return 'Hype Train';
 		}
 
-		console.log(type);
-
 		return 'Follower';
 	}
 
@@ -348,6 +423,28 @@ class Tla extends BaseApi {
 		if (roles.isAffiliate) return 'Affiliate';
 
 		return '';
+	}
+
+	private determineEmoteSetSubtitle(setId: string, emotes: Emote[], owner: User | null): string {
+		if (setId === '0') return 'Global Emotes';
+		if (setId === '793') return 'Turbo Emotes';
+		if (setId === '19194') return 'Prime Emotes';
+
+		const firstEmote = emotes[0];
+
+		if (firstEmote?.description?.includes('Tier')) {
+			const tierMatch = firstEmote.description.match(/Tier (\d)/);
+
+			if (tierMatch) return `Tier ${tierMatch[1]} Subscription Emotes`;
+		}
+
+		if (firstEmote?.description?.includes('bits')) {
+			return 'Bits Emotes';
+		}
+
+		if (!owner) return 'Global Emotes';
+
+		return 'Follower Emotes';
 	}
 }
 

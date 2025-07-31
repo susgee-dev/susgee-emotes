@@ -5,8 +5,7 @@ import { SearchIcon } from '@heroui/shared-icons';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { fetchChannelData } from './actions';
-
+import { fetchChannelData } from '@/app/actions';
 import BadgeSection from '@/components/badge-section';
 import Channel from '@/components/channel';
 import EmoteSection from '@/components/emote-section';

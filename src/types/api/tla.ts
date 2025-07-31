@@ -124,3 +124,29 @@ export type TwitchBadges = {
 	subscriber: Badge[];
 	bits: Badge[];
 };
+
+export type EmoteOwner = {
+	id: string;
+	login: string;
+	displayName: string;
+	bestName: string;
+};
+
+export type EmoteDetails = {
+	id: string;
+	token: string;
+	description: string;
+	image: string;
+	type: string;
+	setID: string;
+	state: string;
+	artist: string | null;
+	owner: EmoteOwner | null;
+};
+
+export type EmoteSet = {
+	id: string;
+	owner: User | null;
+	emotes: Emote[];
+	subtitle: string;
+};
