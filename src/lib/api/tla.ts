@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 import BaseApi from './base';
 
+import logger from '@/lib/logger';
 import { getBestName } from '@/lib/utils';
 import {
 	ApiBadge,
@@ -399,9 +400,13 @@ class Tla extends BaseApi {
 				return 'Limited Time';
 			case 'HYPE_TRAIN':
 				return 'Hype Train';
-		}
+			case 'FOLLOWER':
+				return 'Follower';
+			default:
+				logger.warn(`Unknown emote type: ${type}`);
 
-		return 'Follower';
+				return 'Unknown';
+		}
 	}
 
 	private formatEmoteDescription(

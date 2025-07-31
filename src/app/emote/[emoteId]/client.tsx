@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
 
 import EmoteSection from '@/components/emote-section';
 import { IconExternal } from '@/components/icons/external';
@@ -36,7 +35,6 @@ type EmoteClientProps = {
 };
 
 export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
-	const [searchQuery, setSearchQuery] = useState('');
 	const emoteDimensions = getEmoteDimensions(emote.id, 112);
 
 	const otherEmotes = setEmotes?.filter((e) => e.id !== emote.id) || [];
@@ -116,7 +114,6 @@ export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
 							<EmoteSection
 								emotes={otherEmotes}
 								initialEmoteId={null}
-								searchQuery={searchQuery}
 								title="Other Emotes in this Set"
 							/>
 						</div>
