@@ -36,17 +36,17 @@ export default function EmoteSetClient({ emoteSet }: EmoteSetClientProps) {
 									width={150}
 								/>
 							)}
-							<div className="flex flex-col gap-2">
+							<div className="flex flex-col gap-1">
 								<Heading as="h1" variant="compact">
 									{emoteSet.subtitle}
 								</Heading>
-								<p className="break-word text-sm text-gray-400">
+								<p className="break-word">
 									<span className="font-medium">Set ID:</span> {emoteSet.id}
 								</p>
 								<p className="text-lg">
 									<span className="font-medium">Owner:</span>{' '}
 									<Link href={`/${emoteSet.owner.login}`} size="lg">
-										{emoteSet.owner.displayName}
+										{emoteSet.owner.displayName || emoteSet.owner.login}
 									</Link>
 									{' | '}
 									<Link
@@ -66,7 +66,7 @@ export default function EmoteSetClient({ emoteSet }: EmoteSetClientProps) {
 							<Heading as="h1" variant="compact">
 								{emoteSet.subtitle}
 							</Heading>
-							<p className="break-word text-sm text-gray-400">
+							<p className="break-word text-sm text-muted-foreground">
 								<span className="font-medium">Set ID:</span> {emoteSet.id}
 							</p>
 						</div>

@@ -35,8 +35,6 @@ type EmoteClientProps = {
 };
 
 export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
-	const emoteDimensions = getEmoteDimensions(emote.id, 112);
-
 	const otherEmotes = setEmotes?.filter((e) => e.id !== emote.id) || [];
 
 	return (
@@ -45,68 +43,71 @@ export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
 				<Link href="/">← back to search</Link>
 
 				<div className="flex flex-col gap-6">
-					<div className="flex flex-col items-start gap-6 md:flex-row">
-						<Image
-							unoptimized
-							alt={emote.token}
-							height={emoteDimensions.height}
-							src={emote.image}
-							style={{ objectFit: 'contain' }}
-							width={emoteDimensions.width}
-						/>
-						<div className="flex flex-col gap-2">
-							<Heading as="h1" variant="compact">
-								{emote.token}
-							</Heading>
-							<p className="break-word text-sm text-gray-400">
-								<span className="font-medium">ID:</span> {emote.id}
-							</p>
+					<div className="flex flex-col items-start gap-6">
+						<Heading as="h1" variant="compact">
+							{emote.token}
+						</Heading>
+						<div className="flex flex-col gap-4 md:flex-row">
+							<Image
+								unoptimized
+								alt={emote.token}
+								height={getEmoteDimensions(emote.id, 112).height}
+								src={emote.image}
+								style={{ objectFit: 'contain' }}
+								width={getEmoteDimensions(emote.id, 112).width}
+							/>
+							<div className="flex flex-col gap-2">
+								{emote.description && <p className="text-lg font-medium">{emote.description}</p>}
 
-							{emote.description && <p className="text-lg font-medium">{emote.description}</p>}
-							{emote.artist && (
-								<p className="text-lg">
-									<span className="font-medium">Artist:</span>{' '}
-									<Link href={`/${emote.artist}`} size="lg">
-										{emote.artist}
-									</Link>
-									{' | '}
-									<Link
-										align="top"
-										href={`https://twitch.tv/${emote.artist}`}
-										iconAfter={<IconExternal size={14} />}
-										size="lg"
-										target="_blank"
-									>
-										Twitch
-									</Link>
+								{emote.artist && (
+									<p className="text-lg">
+										<span className="font-medium">Artist:</span>{' '}
+										<Link href={`/${emote.artist}`} size="lg">
+											{emote.artist}
+										</Link>
+										{' | '}
+										<Link
+											align="top"
+											href={`https://twitch.tv/${emote.artist}`}
+											iconAfter={<IconExternal size={14} />}
+											size="lg"
+											target="_blank"
+										>
+											Twitch
+										</Link>
+									</p>
+								)}
+								
+								{emote.owner && (
+									<p className="text-lg">
+										<span className="font-medium">Owner:</span>{' '}
+										<Link href={`/${emote.owner.login}`} size="lg">
+											{emote.owner.bestName || emote.owner.displayName || emote.owner.login}
+										</Link>
+										{' | '}
+										<Link
+											align="top"
+											href={`https://twitch.tv/${emote.owner.login}`}
+											iconAfter={<IconExternal size={14} />}
+											size="lg"
+											target="_blank"
+										>
+											Twitch
+										</Link>
+									</p>
+								)}
+								
+								{emote.setID && (
+									<p className="break-word text-lg">
+										<span className="font-medium">Emote Set:</span>{' '}
+										<Link href={`/set/${emote.setID}`}>{emote.setID}</Link>
+									</p>
+								)}
+								
+								<p className="break-word text-sm text-muted-foreground">
+									<span className="font-medium">ID:</span> {emote.id}
 								</p>
-							)}
-							{emote.owner && (
-								<p className="text-lg">
-									<span className="font-medium">Owner:</span>{' '}
-									<Link href={`/${emote.owner.login}`} size="lg">
-										{emote.owner.bestName}
-									</Link>
-									{' | '}
-									<Link
-										align="top"
-										href={`https://twitch.tv/${emote.owner.login}`}
-										iconAfter={<IconExternal size={14} />}
-										size="lg"
-										target="_blank"
-									>
-										Twitch
-									</Link>
-								</p>
-							)}
-							{emote.setID && (
-								<p className="break-word text-sm text-gray-400">
-									<span className="font-medium">Emote Set:</span>{' '}
-									<Link href={`/set/${emote.setID}`} size="sm">
-										{emote.setID}
-									</Link>
-								</p>
-							)}
+							</div>
 						</div>
 					</div>
 					{otherEmotes.length > 0 && (

@@ -4,7 +4,22 @@ import BaseApi from './base';
 
 import logger from '@/lib/logger';
 import { getBestName } from '@/lib/utils';
-import { ApiBadge, ApiEmote, BadgeResponse, Emote, EmoteDetails, EmoteResponse, EmoteSet, GlobalEmoteResponse, Roles, TwitchBadges, TwitchEmotes, TwitchGlobalEmotes, User, UserResponse } from '@/types/api/tla';
+import {
+	ApiBadge,
+	ApiEmote,
+	BadgeResponse,
+	Emote,
+	EmoteDetails,
+	EmoteResponse,
+	EmoteSet,
+	GlobalEmoteResponse,
+	Roles,
+	TwitchBadges,
+	TwitchEmotes,
+	TwitchGlobalEmotes,
+	User,
+	UserResponse
+} from '@/types/api/tla';
 
 class Tla extends BaseApi {
 	private readonly headers = {

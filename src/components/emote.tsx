@@ -32,7 +32,6 @@ export default function Emote({
 
 	const isMatch = !searchQuery || emote.name.toLowerCase().includes(searchQuery.toLowerCase());
 	const mainEmoteDimensions = getEmoteDimensions(emote.id);
-	const modalEmoteDimensions = getEmoteDimensions(emote.id, 112);
 
 	useEffect(() => {
 		if (initiallyOpen) {
@@ -135,16 +134,15 @@ export default function Emote({
 										<Image
 											unoptimized
 											alt={emote.name}
-											height={modalEmoteDimensions.height}
+											height={getEmoteDimensions(emote.id, 112).height}
 											src={emoteDetails.image}
 											style={{ objectFit: 'contain' }}
-											width={modalEmoteDimensions.width}
+											width={getEmoteDimensions(emote.id, 112).width}
 										/>
-										<div className="flex flex-col gap-2">
-											<p className="text-lg font-medium">{emoteDetails.description}</p>
-											<p className="break-word text-sm text-gray-400">
-												<span className="font-medium">ID:</span> {emote.id}
-											</p>
+										<div className="flex flex-col gap-1">
+											{emoteDetails.description && (
+												<p className="text-xl font-medium">{emoteDetails.description}</p>
+											)}
 
 											{emoteDetails.artist && (
 												<p className="text-lg">
@@ -168,7 +166,9 @@ export default function Emote({
 												<p className="text-lg">
 													<span className="font-medium">Owner:</span>{' '}
 													<Link href={`/${emoteDetails.owner.login}`} size="lg">
-														{emoteDetails.owner.bestName}
+														{emoteDetails.owner.bestName ||
+															emoteDetails.owner.displayName ||
+															emoteDetails.owner.login}
 													</Link>
 													{' | '}
 													<Link
@@ -183,13 +183,14 @@ export default function Emote({
 												</p>
 											)}
 											{emoteDetails.setID && (
-												<p className="break-word text-sm text-gray-400">
+												<p className="break-word text-lg">
 													<span className="font-medium">Emote Set:</span>{' '}
-													<Link href={`/set/${emoteDetails.setID}`} size="sm">
-														{emoteDetails.setID}
-													</Link>
+													<Link href={`/set/${emoteDetails.setID}`}>{emoteDetails.setID}</Link>
 												</p>
 											)}
+											<p className="break-word text-sm text-muted-foreground">
+												<span className="font-medium">ID:</span> {emote.id}
+											</p>
 										</div>
 									</div>
 
