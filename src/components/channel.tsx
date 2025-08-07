@@ -10,7 +10,7 @@ import { User } from '@/types/api/tla';
 
 export default function Channel({ channel }: { channel: User }) {
 	return (
-		<div className="flex flex-col gap-6 pb-4 md:flex-row">
+		<div className="flex flex-col items-start gap-6 pb-4 md:flex-row">
 			{channel.avatar && (
 				<Image
 					alt={channel.login}
@@ -36,6 +36,11 @@ export default function Channel({ channel }: { channel: User }) {
 				</p>
 
 				{channel.role && <p className="text-lg">{channel.role}</p>}
+				{channel.prefix && (
+					<p className="text-lg">
+						Emote Prefix: <span className="font-bold">{channel.prefix}</span>
+					</p>
+				)}
 
 				<p>
 					<Link

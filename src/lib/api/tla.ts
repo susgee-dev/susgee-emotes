@@ -4,22 +4,7 @@ import BaseApi from './base';
 
 import logger from '@/lib/logger';
 import { getBestName } from '@/lib/utils';
-import {
-	ApiBadge,
-	ApiEmote,
-	BadgeResponse,
-	Emote,
-	EmoteDetails,
-	EmoteResponse,
-	EmoteSet,
-	GlobalEmoteResponse,
-	Roles,
-	TwitchBadges,
-	TwitchEmotes,
-	TwitchGlobalEmotes,
-	User,
-	UserResponse
-} from '@/types/api/tla';
+import { ApiBadge, ApiEmote, BadgeResponse, Emote, EmoteDetails, EmoteResponse, EmoteSet, GlobalEmoteResponse, Roles, TwitchBadges, TwitchEmotes, TwitchGlobalEmotes, User, UserResponse } from '@/types/api/tla';
 
 class Tla extends BaseApi {
 	private readonly headers = {
@@ -50,6 +35,9 @@ class Tla extends BaseApi {
         description
         chatColor
         createdAt
+        emoticonPrefix {
+        	name
+        }
         profileImageURL (width: 600)
         roles {
           isAffiliate
@@ -74,6 +62,7 @@ class Tla extends BaseApi {
 			description: user.description,
 			color: user.chatColor,
 			createdAt: user.createdAt,
+			prefix: user.emoticonPrefix?.name || '',
 			followers: user.followers?.totalCount || 0,
 			avatar: user.profileImageURL,
 			role: this.getRole(user.roles)
@@ -275,10 +264,8 @@ class Tla extends BaseApi {
 		let owner: User | null = null;
 
 		if (set.owner) {
-			// Fetch full user details for the owner
 			owner = await this.getUser(set.owner.login);
 
-			// If for some reason we can't get the full user details, fall back to basic info
 			if (!owner) {
 				owner = {
 					id: set.owner.id,
@@ -288,6 +275,7 @@ class Tla extends BaseApi {
 					description: '',
 					color: '',
 					createdAt: '',
+					prefix: '',
 					followers: 0,
 					avatar: '',
 					role: ''

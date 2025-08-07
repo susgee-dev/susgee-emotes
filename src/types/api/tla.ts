@@ -12,6 +12,9 @@ export type UserResponse = {
 			description: string;
 			chatColor: string;
 			createdAt: string;
+			emoticonPrefix: {
+				name: string;
+			};
 			profileImageURL: string;
 			roles: Roles;
 			followers: {
@@ -29,6 +32,7 @@ export type User = {
 	description: string;
 	color: string;
 	createdAt: string;
+	prefix: string;
 	followers: number;
 	avatar: string;
 	role: string;
