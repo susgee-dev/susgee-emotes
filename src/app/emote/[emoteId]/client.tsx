@@ -77,7 +77,7 @@ export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
 										</Link>
 									</p>
 								)}
-								
+
 								{emote.owner && (
 									<p className="text-lg">
 										<span className="font-medium">Owner:</span>{' '}
@@ -96,14 +96,14 @@ export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
 										</Link>
 									</p>
 								)}
-								
+
 								{emote.setID && (
 									<p className="break-word text-lg">
 										<span className="font-medium">Emote Set:</span>{' '}
 										<Link href={`/set/${emote.setID}`}>{emote.setID}</Link>
 									</p>
 								)}
-								
+
 								<p className="break-word text-sm text-muted-foreground">
 									<span className="font-medium">ID:</span> {emote.id}
 								</p>
