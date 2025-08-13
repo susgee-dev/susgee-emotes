@@ -4,22 +4,7 @@ import BaseApi from './base';
 
 import logger from '@/lib/logger';
 import { getBestName } from '@/lib/utils';
-import {
-	ApiBadge,
-	ApiEmote,
-	BadgeResponse,
-	Emote,
-	EmoteDetails,
-	EmoteResponse,
-	EmoteSet,
-	GlobalEmoteResponse,
-	Roles,
-	TwitchBadges,
-	TwitchEmotes,
-	TwitchGlobalEmotes,
-	User,
-	UserResponse
-} from '@/types/api/tla';
+import { ApiBadge, ApiEmote, BadgeResponse, Emote, EmoteDetails, EmoteResponse, EmoteSet, GlobalEmoteResponse, Roles, TwitchBadges, TwitchEmotes, TwitchGlobalEmotes, User, UserResponse } from '@/types/api/tla';
 
 class Tla extends BaseApi {
 	private readonly headers = {
@@ -385,26 +370,30 @@ class Tla extends BaseApi {
 
 	private getEmoteType(type: string): string {
 		switch (type) {
-			case 'BITS_BADGE_TIERS':
-				return 'Bits';
-			case 'SUBSCRIPTIONS':
-				return 'Subscription';
 			case 'ARCHIVE':
 				return 'Archive';
-			case 'GLOBALS':
-				return 'Global';
-			case 'PRIME':
-				return 'Prime';
-			case 'TURBO':
-				return 'Turbo';
-			case 'SMILIES':
-				return 'Smiley';
-			case 'LIMITED_TIME':
-				return 'Limited Time';
-			case 'HYPE_TRAIN':
-				return 'Hype Train';
+			case 'BITS_BADGE_TIERS':
+				return 'Bits';
 			case 'FOLLOWER':
 				return 'Follower';
+			case 'GLOBALS':
+				return 'Global';
+			case 'HYPE_TRAIN':
+				return 'Hype Train';
+			case 'LIMITED_TIME':
+				return 'Limited Time';
+			case 'MEGA_COMMERCE':
+				return 'Mega Commerce';
+			case 'PRIME':
+				return 'Prime';
+			case 'SMILIES':
+				return 'Smiley';
+			case 'SUBSCRIPTIONS':
+				return 'Subscription';
+			case 'TURBO':
+				return 'Turbo';
+			case 'TWO_FACTOR':
+				return 'Two Factor';
 			default:
 				logger.warn(`Unknown emote type: ${type}`);
 
