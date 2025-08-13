@@ -1,4 +1,4 @@
-# susgee-emotes
+# [susgee-emotes](https://emotes.susgee.dev/)
 
 A small Next.js app for browsing Twitch emotes and badges:
 
