@@ -29,7 +29,7 @@ class Helix extends BaseApi {
 		if (!emotes) return null;
 
 		return emotes
-			.filter((emote) => emote.emote_type === 'hypetrain')
+			.filter((emote) => ['hypetrain', 'limitedtime'].includes(emote.emote_type))
 			.map((emote) => ({
 				id: emote.id,
 				name: emote.name,
