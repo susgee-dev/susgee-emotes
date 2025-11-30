@@ -4,7 +4,22 @@ import BaseApi from './base';
 
 import logger from '@/lib/logger';
 import { getBestName } from '@/lib/utils';
-import { ApiBadge, ApiEmote, BadgeResponse, Emote, EmoteDetails, EmoteResponse, EmoteSet, GlobalEmoteResponse, Roles, TwitchBadges, TwitchEmotes, TwitchGlobalEmotes, User, UserResponse } from '@/types/api/tla';
+import {
+	ApiBadge,
+	ApiEmote,
+	BadgeResponse,
+	Emote,
+	EmoteDetails,
+	EmoteResponse,
+	EmoteSet,
+	GlobalEmoteResponse,
+	Roles,
+	TwitchBadges,
+	TwitchEmotes,
+	TwitchGlobalEmotes,
+	User,
+	UserResponse
+} from '@/types/api/tla';
 
 class Tla extends BaseApi {
 	private readonly headers = {
@@ -35,6 +50,9 @@ class Tla extends BaseApi {
         description
         chatColor
         createdAt
+        stream {
+        	createdAt
+        }
         emoticonPrefix {
         	name
         }
@@ -45,6 +63,12 @@ class Tla extends BaseApi {
         }
         followers {
           totalCount
+        }
+      }
+
+      banned: userResultByLogin (login: "${username}") {
+      	... on UserDoesNotExist {
+          reason
         }
       }
 		}`;
@@ -65,7 +89,9 @@ class Tla extends BaseApi {
 			prefix: user.emoticonPrefix?.name || '',
 			followers: user.followers?.totalCount || 0,
 			avatar: user.profileImageURL,
-			role: this.getRole(user.roles)
+			role: this.getRole(user.roles),
+			banned: response?.data.banned?.reason || '',
+			isLive: Boolean(user.stream?.createdAt)
 		};
 	}
 
@@ -278,7 +304,9 @@ class Tla extends BaseApi {
 					prefix: '',
 					followers: 0,
 					avatar: '',
-					role: ''
+					role: '',
+					banned: '',
+					isLive: false
 				};
 			}
 		}
