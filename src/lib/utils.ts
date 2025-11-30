@@ -77,7 +77,7 @@ export const WEIRD_EMOTE_SIZES: Record<string, [width: number, height: number]> 
 
 export function getEmoteDimensions(
 	emoteId: string,
-	defaultSize: number = 56
+	defaultSize: number = 64
 ): { width: number; height: number } {
 	const customSize = WEIRD_EMOTE_SIZES[emoteId];
 

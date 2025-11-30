@@ -48,6 +48,12 @@ export default function Channel({ channel }: { channel: User }) {
 					</p>
 				)}
 
+				{channel.banned && (
+					<p className="text-lg">
+						Banned: <span className="text-red-600">{channel.banned}</span>
+					</p>
+				)}
+
 				<p>
 					<Link
 						align="top"
