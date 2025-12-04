@@ -23,6 +23,12 @@ export default function Channel({ channel }: { channel: User }) {
 			<div>
 				<Heading as="h1" variant="compact">
 					<span style={{ color: channel.color }}>{channel?.displayName}</span>
+					{channel.isLive && (
+						<span
+							aria-hidden="true"
+							className="ml-2 inline-block h-3 w-3 animate-pulse rounded-full bg-red-600 align-top"
+						/>
+					)}
 				</Heading>
 				<div className="flex flex-wrap items-baseline gap-2">
 					<Heading as="h3" variant="compact">
@@ -39,6 +45,12 @@ export default function Channel({ channel }: { channel: User }) {
 				{channel.prefix && (
 					<p className="text-lg">
 						Emote Prefix: <span className="font-bold">{channel.prefix}</span>
+					</p>
+				)}
+
+				{channel.banned && (
+					<p className="text-lg">
+						Banned: <span className="text-red-600">{channel.banned}</span>
 					</p>
 				)}
 

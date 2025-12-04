@@ -12,6 +12,9 @@ export type UserResponse = {
 			description: string;
 			chatColor: string;
 			createdAt: string;
+			stream?: {
+				createdAt: string;
+			};
 			emoticonPrefix: {
 				name: string;
 			};
@@ -20,6 +23,9 @@ export type UserResponse = {
 			followers: {
 				totalCount: number;
 			};
+		};
+		banned?: {
+			reason: string;
 		};
 	};
 };
@@ -36,6 +42,8 @@ export type User = {
 	followers: number;
 	avatar: string;
 	role: string;
+	banned: string;
+	isLive: boolean;
 };
 
 export type ApiEmote = {
