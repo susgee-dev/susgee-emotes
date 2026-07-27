@@ -12,6 +12,7 @@ import EmoteSection from '@/components/emote-section';
 import LoadingSpinner from '@/components/loading-spinner';
 import Error from '@/components/ui/error';
 import { Link } from '@/components/ui/link';
+import NoEmotes from '@/components/ui/no-emotes';
 import { User } from '@/types/api/tla';
 import { ChannelData } from '@/types/emotes';
 
@@ -23,6 +24,18 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [searchQuery, setSearchQuery] = useState('');
+	const twitchEmotes = data?.emotes?.twitch;
+	const hasAnyEmotes =
+		(twitchEmotes?.follower.length ?? 0) > 0 ||
+		(twitchEmotes?.tier1.length ?? 0) > 0 ||
+		(twitchEmotes?.tier2.length ?? 0) > 0 ||
+		(twitchEmotes?.tier3.length ?? 0) > 0 ||
+		(twitchEmotes?.bits.length ?? 0) > 0;
+
+	const shouldShowNoEmotes =
+		!channel.isAffiliate &&
+		!channel.isPartner &&
+		!hasAnyEmotes;
 
 	useEffect(() => {
 		async function loadChannelData() {
@@ -66,42 +79,42 @@ export default function ChannelPageClient({ channel }: { channel: User }) {
 				<LoadingSpinner text="Loading emotes and badges..." />
 			) : (
 				<div className="flex flex-col gap-12">
-					{data?.emotes?.twitch && (
-						<>
+					{hasAnyEmotes ? (
 							<div className="flex flex-col gap-6">
 								<EmoteSection
-									emotes={data.emotes.twitch.follower}
+									emotes={twitchEmotes!.follower}
 									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Follower Emotes"
 								/>
 								<EmoteSection
-									emotes={data.emotes.twitch.tier1}
+									emotes={twitchEmotes!.tier1}
 									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Tier 1 Subscription Emotes"
 								/>
 								<EmoteSection
-									emotes={data.emotes.twitch.tier2}
+									emotes={twitchEmotes!.tier2}
 									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Tier 2 Subscription Emotes"
 								/>
 								<EmoteSection
-									emotes={data.emotes.twitch.tier3}
+									emotes={twitchEmotes!.tier3}
 									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Tier 3 Subscription Emotes"
 								/>
 								<EmoteSection
-									emotes={data.emotes.twitch.bits}
+									emotes={twitchEmotes!.bits}
 									initialEmoteId={emoteId}
 									searchQuery={searchQuery}
 									title="Bits Emotes"
 								/>
 							</div>
-						</>
-					)}
+					) : shouldShowNoEmotes ? (
+						<NoEmotes />
+					) : null}
 
 					{data?.badges?.twitch && <BadgeSection badges={data.badges.twitch} />}
 				</div>

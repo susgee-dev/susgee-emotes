@@ -44,6 +44,8 @@ export type User = {
 	role: string;
 	banned: string;
 	isLive: boolean;
+	isPartner: boolean;
+	isAffiliate: boolean;
 };
 
 export type ApiEmote = {
