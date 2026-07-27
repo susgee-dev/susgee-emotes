@@ -175,7 +175,7 @@ export default function Emote({
 											</Link>
 										</p>
 									)}
-									{emoteDetails.setID && (
+									{emoteDetails.setID && !emoteDetails.isGlobal && (
 										<p className="break-word text-lg">
 											<span className="font-medium">Emote Set:</span>{' '}
 											<Link href={`/set/${emoteDetails.setID}`}>{emoteDetails.setID}</Link>

@@ -156,6 +156,7 @@ export type EmoteDetails = {
 	state: string;
 	artist: string | null;
 	owner: EmoteOwner | null;
+	isGlobal: boolean;
 };
 
 export type EmoteSet = {

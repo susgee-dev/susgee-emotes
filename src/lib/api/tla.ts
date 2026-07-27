@@ -382,7 +382,8 @@ class Tla extends BaseApi {
 			state: emote.state,
 			description,
 			image: `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/3.0`,
-			owner
+			owner,
+			isGlobal: false
 		};
 	}
 

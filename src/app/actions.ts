@@ -74,9 +74,20 @@ export async function getEmoteDetails(emoteId: string): Promise<EmoteDetails | n
 
 	const emoteDetails = await tla.getEmoteDetails(emoteId);
 
-	if (emoteDetails) {
-		emoteCache.set(emoteDetails);
+	if (!emoteDetails) {
+		return null;
 	}
+
+	const globalEmotes = await fetchGlobalEmotes();
+	const globalEmoteIds = globalEmotes.emotes.twitch
+		? Object.values(globalEmotes.emotes.twitch)
+				.flat()
+				.map((emote) => emote.id)
+		: [];
+
+	emoteDetails.isGlobal = globalEmoteIds.includes(emoteId);
+
+	emoteCache.set(emoteDetails);
 
 	return emoteDetails;
 }

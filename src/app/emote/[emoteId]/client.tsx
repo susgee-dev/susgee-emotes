@@ -16,6 +16,7 @@ type EmoteClientProps = {
 		image: string;
 		type: string;
 		setID: string;
+		isGlobal: boolean;
 		artist: string | null;
 		owner: {
 			id: string;
@@ -97,7 +98,7 @@ export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
 									</p>
 								)}
 
-								{emote.setID && (
+								{emote.setID && !emote.isGlobal && (
 									<p className="break-word text-lg">
 										<span className="font-medium">Emote Set:</span>{' '}
 										<Link href={`/set/${emote.setID}`}>{emote.setID}</Link>
