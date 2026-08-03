@@ -1,3 +1,4 @@
+import logger from '@/lib/logger';
 import { ApiRequestOptions } from '@/types/api/base';
 
 export default class BaseApi {
@@ -19,6 +20,10 @@ export default class BaseApi {
 		});
 
 		if (!response.ok) {
+			logger.error(
+				`API request failed: ${response.status} ${response.statusText} (${this.basePath}${endpoint})`
+			);
+
 			return null;
 		}
 
