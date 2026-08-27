@@ -6,6 +6,8 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
+
 export default function SearchChannel() {
 	const router = useRouter();
 
@@ -49,19 +51,9 @@ export default function SearchChannel() {
 						onChange={handleInput}
 					/>
 				</motion.div>
-				<motion.button
-					animate={{ opacity: 1, scale: 1 }}
-					className="rounded-lg bg-primary-dark px-4 py-2 text-font transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/60 disabled:pointer-events-none disabled:!opacity-50"
-					disabled={!inputValue}
-					initial={{ opacity: 0, scale: 0.95 }}
-					transition={{
-						duration: 0.3,
-						ease: 'easeInOut'
-					}}
-					type="submit"
-				>
+				<Button disabled={!inputValue} type="submit">
 					Go
-				</motion.button>
+				</Button>
 			</form>
 		</div>
 	);

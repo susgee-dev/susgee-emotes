@@ -149,7 +149,6 @@ export default function Emote({
 												href={`https://twitch.tv/${emoteDetails.artist}`}
 												iconAfter={<IconExternal size={14} />}
 												size="lg"
-												target="_blank"
 											>
 												Twitch
 											</Link>
@@ -169,7 +168,6 @@ export default function Emote({
 												href={`https://twitch.tv/${emoteDetails.owner.login}`}
 												iconAfter={<IconExternal size={14} />}
 												size="lg"
-												target="_blank"
 											>
 												Twitch
 											</Link>
@@ -181,14 +179,14 @@ export default function Emote({
 											<Link href={`/set/${emoteDetails.setID}`}>{emoteDetails.setID}</Link>
 										</p>
 									)}
-									<p className="break-word text-sm text-muted-foreground">
+									<p className="break-word text-sm text-ink-muted">
 										<span className="font-medium">ID:</span> {emote.id}
 									</p>
 								</div>
 							</div>
 
 							<div className="flex flex-col gap-3">
-								<div className="border-t border-gray-700" />
+								<div className="border-t border-line" />
 								<div className="flex flex-row justify-end gap-4">
 									<Button className="w-fit" size="sm" variant="ghost" onClick={handleCopyLink}>
 										<IconCopy size={16} />

@@ -31,12 +31,12 @@ export function Heading({
 			compact: 'text-2xl font-semibold'
 		},
 		h4: {
-			default: 'text-lg font-semibold mt-4 mb-3',
-			compact: 'text-lg font-semibold'
+			default: 'text-xl font-medium mt-4 mb-3',
+			compact: 'text-xl font-medium'
 		},
 		h5: {
-			default: 'text-sm font-medium mt-3 mb-2',
-			compact: 'text-sm font-medium'
+			default: 'text-lg font-medium mt-3 mb-2',
+			compact: 'text-lg font-medium'
 		},
 		h6: {
 			default: 'text-base font-medium mt-2 mb-1',
@@ -44,5 +44,5 @@ export function Heading({
 		}
 	};
 
-	return <Tag className={cn(className, styles[as][variant])}>{children}</Tag>;
+	return <Tag className={cn('text-ink-bright', styles[as][variant], className)}>{children}</Tag>;
 }

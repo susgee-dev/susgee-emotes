@@ -72,7 +72,6 @@ export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
 											href={`https://twitch.tv/${emote.artist}`}
 											iconAfter={<IconExternal size={14} />}
 											size="lg"
-											target="_blank"
 										>
 											Twitch
 										</Link>
@@ -91,7 +90,6 @@ export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
 											href={`https://twitch.tv/${emote.owner.login}`}
 											iconAfter={<IconExternal size={14} />}
 											size="lg"
-											target="_blank"
 										>
 											Twitch
 										</Link>
@@ -105,7 +103,7 @@ export default function EmoteClient({ emote, setEmotes }: EmoteClientProps) {
 									</p>
 								)}
 
-								<p className="break-word text-sm text-muted-foreground">
+								<p className="break-word text-sm text-ink-muted">
 									<span className="font-medium">ID:</span> {emote.id}
 								</p>
 							</div>

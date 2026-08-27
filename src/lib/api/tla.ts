@@ -23,9 +23,7 @@ import {
 
 class Tla extends BaseApi {
 	private readonly headers = {
-		...(process.env.TLA_AUTH_TOKEN
-			? { Authorization: `OAuth ${process.env.TLA_AUTH_TOKEN}` }
-			: {}),
+		...(process.env.TLA_AUTH_TOKEN ? { Authorization: `OAuth ${process.env.TLA_AUTH_TOKEN}` } : {}),
 		'Client-ID': process.env.TLA_CLIENT_ID || '',
 		'User-Agent':
 			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
