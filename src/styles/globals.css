@@ -3,15 +3,58 @@
 @tailwind utilities;
 
 html {
-    overflow-y: scroll !important;
-    padding-right: 0 !important;
+	overflow-y: scroll !important;
+	padding-right: 0 !important;
 }
 
 .break-word {
-    word-break: break-word;
-    hyphens: auto;
+	word-break: break-word;
+	hyphens: auto;
 }
 
 .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-text w-fit;
+	@apply w-fit bg-gradient-text bg-clip-text text-transparent;
+}
+
+.animate-ping-slow {
+	position: relative;
+}
+
+.animate-ping-slow::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: 9999px;
+	box-shadow: 0 0 0 0 currentColor;
+	animation: pulse-ring 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-ring {
+	0% {
+		transform: scale(1);
+		opacity: 0.9;
+	}
+	70% {
+		transform: scale(2);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(2);
+		opacity: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	.animate-ping-slow::after {
+		display: none;
+	}
 }

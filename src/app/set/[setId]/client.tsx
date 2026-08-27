@@ -29,7 +29,7 @@ export default function EmoteSetClient({ emoteSet }: EmoteSetClientProps) {
 							{emoteSet.owner.avatar && (
 								<Image
 									alt={emoteSet.owner.login}
-									className="rounded-2xl border border-primary/30 bg-gradient-bg"
+									className="rounded-full border border-line bg-surface-raised"
 									height={150}
 									src={emoteSet.owner.avatar}
 									style={{ objectFit: 'contain' }}
@@ -54,7 +54,6 @@ export default function EmoteSetClient({ emoteSet }: EmoteSetClientProps) {
 										href={`https://twitch.tv/${emoteSet.owner.login}`}
 										iconAfter={<IconExternal size={14} />}
 										size="lg"
-										target="_blank"
 									>
 										Twitch
 									</Link>
@@ -66,7 +65,7 @@ export default function EmoteSetClient({ emoteSet }: EmoteSetClientProps) {
 							<Heading as="h1" variant="compact">
 								{emoteSet.subtitle}
 							</Heading>
-							<p className="break-word text-sm text-muted-foreground">
+							<p className="break-word text-sm text-ink-muted">
 								<span className="font-medium">Set ID:</span> {emoteSet.id}
 							</p>
 						</div>

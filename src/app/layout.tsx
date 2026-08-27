@@ -52,7 +52,7 @@ const font = Font({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html suppressHydrationWarning className={`${font.className} dark`} lang="en">
-			<body className="flex min-h-dvh flex-col bg-gradient-bg bg-fixed text-font">
+			<body className="flex min-h-dvh flex-col bg-gradient-bg bg-fixed text-ink">
 				<main className="mx-auto flex w-full max-w-[75rem] flex-1 flex-col gap-4 p-4">
 					{children}
 				</main>
