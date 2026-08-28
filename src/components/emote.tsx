@@ -1,6 +1,5 @@
 'use client';
 
-import { Tooltip } from '@heroui/tooltip';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -12,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Link } from '@/components/ui/link';
 import { Modal } from '@/components/ui/modal';
+import { Tooltip } from '@/components/ui/tooltip';
 import logger from '@/lib/logger';
 import { cn, getEmoteDimensions } from '@/lib/utils';
 import { Emote as TwitchEmote } from '@/types/api/tla';
@@ -87,18 +87,11 @@ export default function Emote({
 	return (
 		<>
 			<Tooltip
-				color="foreground"
 				content={
-					<>
-						<Heading as="h3" variant="compact">
-							{emote.name}
-						</Heading>
-						{emote.description && (
-							<Heading as="h4" variant="compact">
-								{emote.description}
-							</Heading>
-						)}
-					</>
+					<div className="flex flex-col gap-0.5">
+						<span className="font-medium text-ink-bright">{emote.name}</span>
+						{emote.description && <span className="text-ink-muted">{emote.description}</span>}
+					</div>
 				}
 				placement="bottom"
 			>
@@ -109,7 +102,6 @@ export default function Emote({
 					height={mainEmoteDimensions.height}
 					loading="lazy"
 					src={emote.image}
-					title={emote.name}
 					width={mainEmoteDimensions.width}
 					onClick={handleEmoteClick}
 				/>
