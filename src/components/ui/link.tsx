@@ -37,22 +37,43 @@ export function Link({
 	children,
 	...props
 }: LinkProps) {
-	return (
-		<NextLink
-			className={cn(
-				sizes[size] || 'text-medium',
-				alignments[align] || 'items-center',
-				!unstyled &&
-					'relative inline-flex gap-1 text-primary transition-opacity tap-highlight-transparent hover:opacity-hover active:opacity-disabled',
-				'no-underline outline-none',
-				className
-			)}
-			href={href}
-			{...props}
-		>
+	const isExternal =
+		href.startsWith('http://') || href.startsWith('https://') || href.startsWith('//');
+
+	const classes = cn(
+		sizes[size] || 'text-medium',
+		alignments[align] || 'items-center',
+		!unstyled &&
+			'relative inline-flex gap-1 text-primary transition-opacity tap-highlight-transparent hover:opacity-hover active:opacity-disabled',
+		'no-underline outline-none',
+		className
+	);
+
+	const content = (
+		<>
 			{iconBefore}
 			{children}
 			{iconAfter}
+		</>
+	);
+
+	if (isExternal) {
+		return (
+			<a
+				className={classes}
+				href={href}
+				{...props}
+				rel="noopener noreferrer"
+				target={props.target ?? '_blank'}
+			>
+				{content}
+			</a>
+		);
+	}
+
+	return (
+		<NextLink className={classes} href={href} {...props}>
+			{content}
 		</NextLink>
 	);
 }

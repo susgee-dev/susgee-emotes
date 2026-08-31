@@ -14,7 +14,7 @@ export default function Channel({ channel }: { channel: User }) {
 			{channel.avatar && (
 				<Image
 					alt={channel.login}
-					className="rounded-2xl border border-primary/30 bg-gradient-bg"
+					className="rounded-full border border-line bg-surface-raised"
 					height={150}
 					src={channel.avatar}
 					width={150}
@@ -26,7 +26,7 @@ export default function Channel({ channel }: { channel: User }) {
 					{channel.isLive && (
 						<span
 							aria-hidden="true"
-							className="ml-2 inline-block h-3 w-3 animate-pulse rounded-full bg-red-600 align-top"
+							className="animate-ping-slow ml-2 inline-block h-3 w-3 rounded-full bg-danger align-top"
 						/>
 					)}
 				</Heading>
@@ -34,7 +34,7 @@ export default function Channel({ channel }: { channel: User }) {
 					<Heading as="h3" variant="compact">
 						@{channel.login}
 					</Heading>
-					<p className="text-lg text-muted-foreground">#{channel.id}</p>
+					<p className="text-lg text-ink-muted">#{channel.id}</p>
 				</div>
 
 				<p className="text-lg">
@@ -50,7 +50,7 @@ export default function Channel({ channel }: { channel: User }) {
 
 				{channel.banned && (
 					<p className="text-lg">
-						Banned: <span className="text-red-600">{channel.banned}</span>
+						Banned: <span className="text-danger">{channel.banned}</span>
 					</p>
 				)}
 
@@ -60,7 +60,6 @@ export default function Channel({ channel }: { channel: User }) {
 						href={`https://twitch.tv/${channel.login}`}
 						iconAfter={<IconExternal size={14} />}
 						size="lg"
-						target="_blank"
 					>
 						Twitch
 					</Link>

@@ -1,11 +1,11 @@
 'use client';
 
-import { Tooltip } from '@heroui/tooltip';
 import Image from 'next/image';
 import { useState } from 'react';
 
 import { Heading } from '@/components/ui/heading';
 import { Modal } from '@/components/ui/modal';
+import { Tooltip } from '@/components/ui/tooltip';
 import { Badge as TwitchBadge } from '@/types/api/tla';
 
 export default function Badge({ badge }: { badge: TwitchBadge }) {
@@ -35,12 +35,11 @@ export default function Badge({ badge }: { badge: TwitchBadge }) {
 	return (
 		<>
 			<Tooltip
-				color="foreground"
 				content={
-					<Heading as="h4" variant="compact">
+					<span className="font-medium text-ink-bright">
 						{badge.name}
 						{description}
-					</Heading>
+					</span>
 				}
 				placement="bottom"
 			>
@@ -51,7 +50,6 @@ export default function Badge({ badge }: { badge: TwitchBadge }) {
 					height={36}
 					loading="lazy"
 					src={badge.image}
-					title={badge.name}
 					width={36}
 					onClick={handleBadgeClick}
 				/>

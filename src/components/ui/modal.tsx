@@ -26,7 +26,9 @@ export function Modal({
 			size={size}
 			{...props}
 		>
-			<ModalContent className={`border border-primary/30 bg-gradient-bg ${contentClassName}`}>
+			<ModalContent
+				className={`rounded-panel border border-line bg-surface-panel ${contentClassName}`}
+			>
 				<ModalBody className={`py-4 ${bodyClassName}`}>{children}</ModalBody>
 			</ModalContent>
 		</HeroModal>
