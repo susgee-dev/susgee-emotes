@@ -4,6 +4,7 @@ import Script from 'next/script';
 import React from 'react';
 
 import Footer from '@/components/footer';
+import { getSeasonalTheme } from '@/lib/seasonal-theme';
 
 import '@/styles/globals.css';
 
@@ -50,13 +51,26 @@ const font = Font({
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+	const seasonalTheme = getSeasonalTheme();
+
 	return (
-		<html suppressHydrationWarning className={`${font.className} dark`} lang="en">
-			<body className="flex min-h-dvh flex-col bg-gradient-bg bg-fixed text-ink">
-				<main className="mx-auto flex w-full max-w-[75rem] flex-1 flex-col gap-4 p-4">
+		<html
+			suppressHydrationWarning
+			className={`${font.className} dark`}
+			data-theme={seasonalTheme ?? undefined}
+			lang="en"
+		>
+			<head>
+				<link rel="stylesheet" href="https://susgee.dev/susgee-theme.css" />
+			</head>
+			<body className="relative flex min-h-dvh flex-col bg-gradient-bg bg-fixed text-ink">
+				<Script src="https://susgee.dev/susgee-theme.js" strategy="beforeInteractive" />
+				<main className="relative z-10 mx-auto flex w-full max-w-[75rem] flex-1 flex-col gap-4 p-4">
 					{children}
 				</main>
-				<Footer />
+				<div className="relative z-10">
+					<Footer />
+				</div>
 				{process.env.TRACKING_ID && (
 					<Script
 						defer

@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Shared tokens: https://susgee.dev/susgee-theme.css */
+
 html {
 	overflow-y: scroll !important;
 	padding-right: 0 !important;
@@ -45,15 +47,6 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
-		scroll-behavior: auto !important;
-	}
-
 	.animate-ping-slow::after {
 		display: none;
 	}
