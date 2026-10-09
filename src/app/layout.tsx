@@ -4,7 +4,7 @@ import Script from 'next/script';
 import React from 'react';
 
 import Footer from '@/components/footer';
-import { getSeasonalTheme } from '@/lib/seasonal-theme';
+import { getSeasonalTheme, SEASONAL_BOOT_SCRIPT } from '@/lib/seasonal-theme';
 
 import '@/styles/globals.css';
 
@@ -62,9 +62,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		>
 			<head>
 				<link rel="stylesheet" href="https://susgee.dev/susgee-theme.css" />
+				<script dangerouslySetInnerHTML={{ __html: SEASONAL_BOOT_SCRIPT }} />
 			</head>
 			<body className="relative flex min-h-dvh flex-col bg-gradient-bg bg-fixed text-ink">
-				<Script src="https://susgee.dev/susgee-theme.js" strategy="beforeInteractive" />
 				<main className="relative z-10 mx-auto flex w-full max-w-[75rem] flex-1 flex-col gap-4 p-4">
 					{children}
 				</main>
